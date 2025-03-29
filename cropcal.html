@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>India Crop Calendar Map</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: url('https://source.unsplash.com/1600x900/?farming,fields') no-repeat center center fixed;
+            background-size: cover;
+            color: white;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        header {
+            background-color: #f77f00;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+        }
+        
+        header h1 {
+            font-size: 2.2rem;
+            font-weight: 700;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            color: #ffffff;
+        }
+        
+        .main-content {
+            display: flex;
+            flex: 1;
+            padding: 20px;
+            gap: 20px;
+        }
+        
+        #sidebar {
+            width: 250px;
+            background: rgba(0, 0, 0, 0.75);
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            height: fit-content;
+            max-height: calc(100vh - 160px);
+            overflow-y: auto;
+        }
+        
+        #sidebar h3 {
+            font-size: 1.3rem;
+            padding-bottom: 10px;
+            margin-bottom: 15px;
+            border-bottom: 2px solid #4CAF50;
+            text-align: center;
+        }
+        
+        #sidebar button {
+            display: block;
+            width: 100%;
+            padding: 10px 15px;
+            margin: 8px 0;
+            background: rgba(40, 130, 40, 0.8);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            text-align: left;
+            font-size: 0.95rem;
+            transition: all 0.2s ease;
+        }
+        
+        #sidebar button:hover {
+            background: rgba(60, 160, 60, 0.9);
+            transform: translateX(5px);
+        }
+        
+        #sidebar button.active {
+            background: #4CAF50;
+            font-weight: bold;
+            box-shadow: 0 0 8px rgba(76, 175, 80, 0.6);
+        }
+        
+        .content-container {
+            flex: 1;
+            display: flex;
+            gap: 20px;
+            align-items: flex-start;
+        }
+        
+        #map-container {
+            background: rgba(0, 0, 0, 0.75);
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            flex: 1;
+        }
+        
+        #map-container h2 {
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            color: #4CAF50;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+        }
+        
+        #map-container img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+        
+        #crop-info-container {
+            width: 300px;
+            background: rgba(0, 0, 0, 0.75);
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+        
+        #crop-info-container h2 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: #4CAF50;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+            text-align: center;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #4CAF50;
+        }
+        
+        #crop-info {
+            background: rgba(30, 30, 30, 0.6);
+            padding: 15px;
+            border-radius: 5px;
+            text-align: left;
+        }
+        
+        #crop-info h3 {
+            font-size: 1.3rem;
+            margin-bottom: 10px;
+            color: #ffffff;
+            text-align: center;
+            padding-bottom: 5px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        
+        #crop-info p {
+            line-height: 1.6;
+        }
+        
+        .crop-type {
+            font-weight: bold;
+            color: #4CAF50;
+        }
+        
+        .placeholder-text {
+            text-align: center;
+            color: #aaa;
+            font-style: italic;
+            padding: 40px 0;
+        }
+        
+        footer {
+            background-color: rgba(0, 0, 0, 0.8);
+            padding: 15px;
+            text-align: center;
+            font-size: 0.9rem;
+            margin-top: auto;
+        }
+        
+        /* Responsive adjustments */
+        @media (max-width: 992px) {
+            .content-container {
+                flex-direction: column;
+            }
+            
+            #crop-info-container {
+                width: 100%;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .main-content {
+                flex-direction: column;
+            }
+            
+            #sidebar {
+                width: 100%;
+                max-height: 300px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1><i class="fas fa-seedling"></i> INDIA CROP CALENDAR MAP</h1>
+    </header>
+    
+    <div class="main-content">
+        <div id="sidebar">
+            <h3>States</h3>
+            <div id="state-buttons"></div>
+        </div>
+        
+        <div class="content-container">
+            <div id="map-container">
+                <h2>Geographic Map</h2>
+                <img src="https://www.toptourguide.com/indialarge.gif" alt="India Crop Map" width="600">
+            </div>
+            
+            <div id="crop-info-container">
+                <h2><i class="fas fa-calendar-alt"></i> CROP CALENDAR</h2>
+                <div id="crop-info">
+                    <div class="placeholder-text">
+                        Select a state to view crop information
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <footer>
+        India Agricultural Information System &copy; 2023
+    </footer>
+    <script>
+        const cropData = {
+            'Punjab': 'Kharif: Rice, Maize | Rabi: Wheat, Mustard',
+            'Maharashtra': 'Kharif: Jowar, Cotton | Rabi: Wheat, Chickpea',
+            'Karnataka': 'Kharif: Rice, Ragi | Rabi: Wheat, Chickpea',
+            'Tamil Nadu': 'Kharif: Rice, Maize | Rabi: Groundnut, Sunflower',
+            'Uttar Pradesh': 'Kharif: Rice, Maize | Rabi: Wheat, Barley',
+            'Bihar': 'Kharif: Rice, Maize | Rabi: Wheat, Lentils',
+            'West Bengal': 'Kharif: Rice, Jute | Rabi: Wheat, Mustard',
+            'Odisha': 'Kharif: Rice, Groundnut | Rabi: Wheat, Mustard',
+            'Telangana': 'Kharif: Rice, Cotton | Rabi: Maize, Pulses',
+            'Rajasthan': 'Kharif: Bajra, Moong | Rabi: Wheat, Mustard',
+            'Madhya Pradesh': 'Kharif: Soybean, Maize | Rabi: Wheat, Gram',
+            'Gujarat': 'Kharif: Cotton, Groundnut | Rabi: Wheat, Mustard',
+            'Haryana': 'Kharif: Rice, Bajra | Rabi: Wheat, Mustard',
+            'Assam': 'Kharif: Rice, Jute | Rabi: Wheat, Mustard',
+            'Chhattisgarh': 'Kharif: Rice, Maize | Rabi: Wheat, Pulses',
+            'Jharkhand': 'Kharif: Rice, Maize | Rabi: Wheat, Lentils',
+            'Andhra Pradesh': 'Kharif: Rice, Cotton | Rabi: Maize, Pulses',
+            'Kerala': 'Kharif: Rice, Spices | Rabi: Coconut, Rubber',
+            'Goa': 'Kharif: Rice, Cashew | Rabi: Pulses, Coconut',
+            'Manipur': 'Kharif: Rice, Maize | Rabi: Mustard, Pulses',
+            'Meghalaya': 'Kharif: Rice, Maize | Rabi: Potatoes, Ginger',
+            'Mizoram': 'Kharif: Rice, Maize | Rabi: Pulses, Vegetables',
+            'Nagaland': 'Kharif: Rice, Maize | Rabi: Mustard, Vegetables',
+            'Tripura': 'Kharif: Rice, Jute | Rabi: Wheat, Mustard',
+            'Arunachal Pradesh': 'Kharif: Rice, Maize | Rabi: Millet, Pulses',
+            'Sikkim': 'Kharif: Maize, Rice | Rabi: Barley, Vegetables',
+            'Himachal Pradesh': 'Kharif: Maize, Millets | Rabi: Wheat, Barley',
+            'Jammu & Kashmir': 'Kharif: Maize, Rice | Rabi: Wheat, Mustard'
+        };
+        const sidebar = document.getElementById('state-buttons');
+        const cropInfo = document.getElementById('crop-info');
+        let activeButton = null;
+        Object.keys(cropData).sort().forEach(state => {
+            const button = document.createElement('button');
+            button.innerText = state;
+            button.onclick = () => {
+                // Remove active class from previous button
+                if (activeButton) {
+                    activeButton.classList.remove('active');
+                }
+                
+                // Add active class to current button
+                button.classList.add('active');
+                activeButton = button;
+                
+                // Format the crop data with bold crop type labels
+                const cropTextRaw = cropData[state];
+                const formattedText = cropTextRaw
+                    .replace('Kharif:', '<span class="crop-type">Kharif:</span>')
+                    .replace('Rabi:', '<span class="crop-type">Rabi:</span>');
+                
+                cropInfo.innerHTML = `
+                    <h3>${state}</h3>
+                    <p>${formattedText}</p>
+                `;
+            };
+            sidebar.appendChild(button);
+        });
+    </script>
+</body>
+</html>

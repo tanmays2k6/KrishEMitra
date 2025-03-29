@@ -1,0 +1,2858 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KrishEMitra - Agricultural Information Platform</title>
+    <style>
+        /* CSS Styles */
+        :root {
+            --primary-color: #f77f00;
+            --secondary-color: #d62828;
+            --light-color: rgb(237, 235, 233);
+            --dark-color: #003049;
+            --white: #ffffff;
+            --light-gray: #f8f9fa;
+            --gray: #6c757d;
+            --dark-gray: #343a40;
+            --success: #28a745;
+            --danger: #dc3545;
+            --warning: #ffc107;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--light-gray);
+            color: var(--dark-gray);
+            line-height: 1.6;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+
+        /* Header */
+        header {
+            background-color: var(--white);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+        }
+
+        .logo-text {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--dark-color);
+        }
+
+        .logo-text span {
+            color: var(--primary-color);
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 20px;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: var(--gray);
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        nav a:hover {
+            color: var(--primary-color);
+        }
+
+        .language-selector {
+            position: relative;
+        }
+
+        .language-btn {
+            background: none;
+            border: 1px solid var(--gray);
+            border-radius: 4px;
+            padding: 8px 12px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-weight: 500;
+        }
+
+        .language-options {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background-color: var(--white);
+            border-radius: 4px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            width: 120px;
+            display: none;
+            z-index: 10;
+        }
+
+        .language-options.active {
+            display: block;
+        }
+
+        .language-option {
+            padding: 8px 12px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .language-option:hover {
+            background-color: var(--light-gray);
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* Hero Section */
+        .hero {
+            background-color: rgba(247, 127, 0, 0.1);
+            padding: 60px 0;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 16px;
+            color: var(--dark-color);
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin: 0 auto;
+            color: var(--gray);
+        }
+
+        /* Main Content */
+        .main-content {
+            padding: 40px 0;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 30px;
+        }
+
+        /* Crop Selection */
+        .section-title {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            text-align: center;
+            color: var(--dark-color);
+        }
+
+        .crop-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .crop-card {
+            background-color: var(--white);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+            cursor: pointer;
+        }
+
+        .crop-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .crop-card img {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+        }
+
+        .crop-card-content {
+            padding: 15px;
+        }
+
+        .crop-card-content h3 {
+            margin-bottom: 5px;
+            font-size: 1.1rem;
+        }
+
+        .crop-card-content p {
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+
+        /* Weather Widget */
+        .weather-widget {
+            background-color: var(--white);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+        }
+
+        .widget-header {
+            background-color: var(--primary-color);
+            color: var(--white);
+            padding: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: bold;
+        }
+
+        .widget-content {
+            padding: 15px;
+        }
+
+        .weather-main {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .temperature {
+            font-size: 2rem;
+            font-weight: bold;
+        }
+
+        .condition {
+            font-size: 1.1rem;
+        }
+
+        .weather-details {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        .weather-detail {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .weather-icon {
+            color: var(--primary-color);
+        }
+
+        .alert {
+            background-color: var(--danger);
+            color: var(--white);
+            padding: 10px;
+            border-radius: 6px;
+            margin-top: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+            /* Weather forecast section */
+            .forecast-section {
+            margin-top: 15px;
+            border-top: 1px solid var(--light-gray);
+            padding-top: 15px;
+        }
+
+        .forecast-title {
+            font-size: 1rem;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+
+        .forecast-items {
+            display: flex;
+            overflow-x: auto;
+            gap: 15px;
+            padding-bottom: 5px;
+        }
+
+        .forecast-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-width: 50px;
+        }
+
+        .forecast-time {
+            font-size: 0.8rem;
+            color: var(--gray);
+            margin-bottom: 5px;
+        }
+
+        .forecast-icon {
+            margin: 5px 0;
+            width: 40px;
+            height: 40px;
+        }
+
+        .forecast-temp {
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+
+        .forecast-precip {
+            font-size: 0.8rem;
+            color: var(--primary-color);
+        }
+
+        /* Loading state */
+        .weather-loading {
+            text-align: center;
+            padding: 20px;
+        }
+
+        .loading-spinner {
+            border: 3px solid rgba(0, 0, 0, 0.1);
+            border-radius: 50%;
+            border-top: 3px solid var(--primary-color);
+            width: 30px;
+            height: 30px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 10px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Location permissions */
+        .location-permission {
+            background-color: rgba(247, 127, 0, 0.1);
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .btn-allow {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+
+        /* Disease Alerts */
+        .disease-widget {
+            background-color: var(--white);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .disease-header {
+            background-color: var(--danger);
+            color: var(--white);
+            padding: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: bold;
+        }
+
+        .alert-item {
+            padding: 15px;
+            border-bottom: 1px solid var(--light-gray);
+        }
+
+        .alert-top {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+
+        .alert-title {
+            font-weight: bold;
+            margin-right: 10px;
+        }
+
+        .badge {
+            background-color: var(--warning);
+            color: var(--dark-color);
+            font-size: 0.8rem;
+            padding: 2px 8px;
+            border-radius: 20px;
+            font-weight: bold;
+        }
+
+        .badge.high {
+            background-color: var(--danger);
+            color: var(--white);
+        }
+
+        .alert-meta {
+            font-size: 0.8rem;
+            color: var(--gray);
+            margin-bottom: 10px;
+        }
+
+        .alert-description {
+            margin-bottom: 10px;
+        }
+
+        .prevention-title {
+            font-weight: bold;
+            font-size: 0.9rem;
+            margin-bottom: 5px;
+        }
+
+        .prevention-text {
+            font-size: 0.9rem;
+        }
+
+        .other-alerts {
+            padding: 15px;
+        }
+
+        .other-alerts h4 {
+            margin-bottom: 10px;
+            font-size: 1rem;
+        }
+
+        .alert-list-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .alert-list-item:hover {
+            background-color: var(--light-gray);
+        }
+
+        .alert-list-info h5 {
+            font-size: 0.9rem;
+            margin-bottom: 2px;
+        }
+
+        .alert-list-date {
+            font-size: 0.8rem;
+            color: var(--gray);
+        }
+
+        /* Modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.6);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            visibility: hidden;
+            opacity: 0;
+            transition: opacity 0.3s, visibility 0.3s;
+        }
+
+        .modal-overlay.active {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        .modal {
+            background-color: var(--white);
+            border-radius: 8px;
+            width: 90%;
+            max-width: 800px;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 5px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+            border-bottom: 1px solid var(--light-gray);
+        }
+
+        .modal-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .close-modal {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--gray);
+        }
+
+        .modal-body {
+            padding: 20px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .crop-image {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-bottom: 15px;
+        }
+
+        .crop-info h3 {
+            font-size: 1.1rem;
+            margin-bottom: 8px;
+        }
+
+        .crop-info p {
+            margin-bottom: 15px;
+        }
+
+        .modal-footer {
+            padding: 15px 20px;
+            border-top: 1px solid var(--light-gray);
+            text-align: right;
+        }
+
+        .btn {
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: background-color 0.3s;
+            border: none;
+        }
+
+        .btn-primary {
+            background-color: var(--primary-color);
+            color: var(--white);
+        }
+
+        .btn-primary:hover {
+            background-color: #e67300;
+        }
+
+        /* Hide loading skeletons */
+        .skeleton, .loading-card {
+            display: none !important;
+        }
+
+        /* Additional styles for visible data */
+        .hidden {
+            display: none !important;
+        }
+
+        .visible {
+            display: block;
+        }
+        /* Features Section */
+        .features {
+            padding: 60px 0;
+            background-color: var(--light-gray);
+        }
+
+        .features-title {
+            font-size: 2rem;
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+        }
+
+        .feature-card {
+            background-color: var(--white);
+            border-radius: 8px;
+            padding: 30px;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .feature-icon {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            margin-bottom: 20px;
+        }
+
+        .feature-title {
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+        }
+
+        .feature-description {
+            color: var(--gray);
+        }
+
+        
+        /* Footer */
+        footer {
+            background-color: var(--dark-color);
+            color: var(--white);
+            padding: 60px 0 20px;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .footer-logo-text {
+            font-size: 1.3rem;
+            font-weight: bold;
+        }
+
+        .footer-logo-text span {
+            color: var(--primary-color);
+        }
+
+        .footer-description {
+            color: #ccc;
+            margin-bottom: 20px;
+        }
+
+        .footer-heading {
+            font-size: 1.1rem;
+            margin-bottom: 20px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        .footer-heading::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 50px;
+            height: 2px;
+            background-color: var(--primary-color);
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+
+        .footer-links a {
+            color: #ccc;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: var(--primary-color);
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .contact-icon {
+            color: var(--primary-color);
+            font-size: 1.2rem;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .social-link {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 36px;
+            height: 36px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            transition: background-color 0.3s;
+        }
+
+        .social-link:hover {
+            background-color: var(--primary-color);
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: #999;
+            font-size: 0.9rem;
+        }
+        /* Chatbot Widget Styles */
+        .chatbot-widget {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1000;
+        }
+
+        .chatbot-trigger {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background-color: var(--primary-color);
+            color: var(--light-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: var(--shadow);
+            border: none;
+            transition: all 0.3s ease;
+        }
+
+        .chatbot-trigger:hover {
+            background-color: var(--primary-hover);
+            transform: scale(1.05);
+        }
+
+        .chatbot-trigger svg {
+            width: 24px;
+            height: 24px;
+        }
+
+        .chatbot-popup {
+            position: absolute;
+            bottom: 80px;
+            right: 0;
+            width: 350px;
+            height: 500px;
+            background-color: var(--light-color);
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            display: flex;
+            flex-direction: column;
+            visibility: hidden;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.3s ease;
+            border: 1px solid var(--border-color);
+        }
+
+        .chatbot-popup.active {
+            visibility: visible;
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Chatbot Header */
+        .chatbot-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 16px;
+            background-color: var(--primary-color);
+            color: var(--light-color);
+        }
+
+        .chatbot-title {
+            display: flex;
+            align-items: center;
+        }
+
+        .chatbot-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background-color: var(--light-color);
+            color: var(--primary-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 10px;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        .chatbot-controls {
+            display: flex;
+            align-items: center;
+        }
+
+        .language-dropdown {
+            position: relative;
+            margin-right: 10px;
+        }
+
+        .language-current {
+            display: flex;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            border-radius: 4px;
+            color: var(--light-color);
+            padding: 4px 8px;
+            font-size: 12px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .language-current:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .language-icon {
+            margin-right: 4px;
+        }
+
+        .language-menu {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background: white;
+            border-radius: 4px;
+            box-shadow: var(--shadow);
+            z-index: 10;
+            width: 120px;
+            display: none;
+            margin-top: 4px;
+        }
+
+        .language-menu.active {
+            display: block;
+        }
+
+        .language-option {
+            padding: 8px 12px;
+            cursor: pointer;
+            color: var(--text-color);
+            transition: background-color 0.2s;
+            font-size: 14px;
+        }
+
+        .language-option:hover {
+            background-color: var(--muted-color);
+        }
+
+        .language-option.active {
+            background-color: var(--primary-color);
+            color: var(--light-color);
+        }
+
+        .chatbot-close {
+            background: none;
+            border: none;
+            color: var(--light-color);
+            cursor: pointer;
+            padding: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: background-color 0.2s;
+        }
+
+        .chatbot-close:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+
+        /* Messages Container */
+        .messages-container {
+            flex: 1;
+            overflow-y: auto;
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            scroll-behavior: smooth;
+        }
+
+        /* Message Styles */
+        .message {
+            display: flex;
+            max-width: 80%;
+            animation: fadeIn 0.3s;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .message.user {
+            margin-left: auto;
+            justify-content: flex-end;
+        }
+
+        .message.bot {
+            margin-right: auto;
+            justify-content: flex-start;
+        }
+
+        .message-content {
+            padding: 10px 14px;
+            border-radius: 18px;
+            position: relative;
+            word-break: break-word;
+        }
+
+        .user .message-content {
+            background-color: var(--primary-color);
+            color: var(--light-color);
+            border-bottom-right-radius: 4px;
+        }
+
+        .bot .message-content {
+            background-color: var(--muted-color);
+            color: var(--text-color);
+            border-bottom-left-radius: 4px;
+        }
+
+        .message-time {
+            font-size: 0.7rem;
+            opacity: 0.7;
+            margin-top: 4px;
+            display: block;
+        }
+
+        /* Loading Animation */
+        .typing-indicator {
+            padding: 10px 14px;
+            display: flex;
+            align-items: center;
+            background-color: var(--muted-color);
+            border-radius: 18px;
+            border-bottom-left-radius: 4px;
+            width: fit-content;
+        }
+
+        .typing-dot {
+            width: 8px;
+            height: 8px;
+            background-color: var(--text-color);
+            border-radius: 50%;
+            margin: 0 2px;
+            opacity: 0.6;
+            animation: typingBounce 1.5s infinite ease-in-out;
+        }
+
+        .typing-dot:nth-child(1) {
+            animation-delay: 0s;
+        }
+
+        .typing-dot:nth-child(2) {
+            animation-delay: 0.3s;
+        }
+
+        .typing-dot:nth-child(3) {
+            animation-delay: 0.6s;
+        }
+
+        @keyframes typingBounce {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-5px);
+                opacity: 1;
+            }
+        }
+
+        /* Special Messages */
+        .language-selection-options {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 8px;
+        }
+
+        .language-button {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 16px;
+            padding: 6px 12px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .language-button:hover {
+            background-color: var(--primary-hover);
+        }
+
+        /* Input Area */
+        .input-area {
+            padding: 12px;
+            border-top: 1px solid var(--border-color);
+            background-color: var(--light-color);
+        }
+
+        .input-container {
+            display: flex;
+            gap: 8px;
+            position: relative;
+        }
+
+        .voice-button, .send-button {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            flex-shrink: 0;
+            transition: all 0.2s;
+        }
+
+        .voice-button {
+            background-color: var(--muted-color);
+            color: var(--text-color);
+        }
+
+        .voice-button.recording {
+            background-color: var(--danger-color);
+            color: var(--light-color);
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(255, 51, 51, 0.4);
+            }
+            70% {
+                box-shadow: 0 0 0 10px rgba(255, 51, 51, 0);
+            }
+            100% {
+                box-shadow: 0 0 0 0 rgba(255, 51, 51, 0);
+            }
+        }
+
+        .send-button {
+            background-color: var(--primary-color);
+            color: var(--light-color);
+        }
+
+        .send-button:hover {
+            background-color: var(--primary-hover);
+        }
+
+        .send-button:disabled {
+            background-color: var(--muted-color);
+            color: #999;
+            cursor: not-allowed;
+        }
+
+        .input-field {
+            flex: 1;
+            padding: 10px 12px;
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .input-field:focus {
+            border-color: var(--primary-color);
+        }
+
+        .input-field.recording {
+            border-color: var(--danger-color);
+        }
+
+        .recording-timer {
+            position: absolute;
+            left: 50px;
+            bottom: -18px;
+            font-size: 0.75rem;
+            color: var(--danger-color);
+        }
+
+        /* Responsive */
+        @media (max-width: 480px) {
+            .chatbot-popup {
+                width: 100%;
+                height: 100%;
+                bottom: 0;
+                right: 0;
+                border-radius: 0;
+            }
+
+            .chatbot-trigger {
+                bottom: 20px;
+                right: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <a href="#" class="logo">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 6.25V19.25M12 6.25C10.8 5.5 9.25 5 7.5 5C5.75 5 4.2 5.5 3 6.25V19.25C4.2 18.5 5.75 18 7.5 18C9.25 18 10.8 18.5 12 19.25M12 6.25C13.2 5.5 14.75 5 16.5 5C18.25 5 19.8 5.5 21 6.25V19.25C19.8 18.5 18.25 18 16.5 18C14.75 18 13.2 18.5 12 19.25" stroke="#f77f00" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    <span class="logo-text"><span>KrishE</span>Mitra</span>
+                </a>
+                
+                <nav>
+                    <ul>
+                        <li><a href="#" class="translatable" data-key="home">Home</a></li>
+                        <li><a href="about-us.html" class="translatable" data-key="about">About us</a></li>
+                        <li><a href="#features" class="translatable" data-key="features">Features</a></li>
+                        <li><a href="cropcal.html" class="translatable" data-key="cropcal">Crop Calendar</a></li>
+                        <li><a href="payment.html" class="translatable" data-key="premium">Subscription</a></li>
+                    </ul>
+                </nav>
+                
+                <div class="language-selector">
+                    <button class="language-btn" id="lang-btn">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M2 12H22" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M12 2C14.5013 4.73835 15.9228 8.29203 16 12C15.9228 15.708 14.5013 19.2616 12 22C9.49872 19.2616 8.07725 15.708 8 12C8.07725 8.29203 9.49872 4.73835 12 2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                        <span id="current-lang">English</span>
+                    </button>
+                    <div class="language-options" id="lang-options">
+                        <div class="language-option" data-lang="en">English</div>
+                        <div class="language-option" data-lang="hi">हिंदी</div>
+                        <div class="language-option" data-lang="kn">ಕನ್ನಡ</div>
+                    </div>
+                </div>
+                
+                <button class="mobile-menu-btn" id="mobile-menu-btn">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M3 12H21M3 6H21M3 18H21" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </header>
+    
+
+    
+    <section class="hero">
+        <div class="container">
+            <h1 class="translatable" data-key="appTitle">KrishEMitra</h1>
+            <p class="translatable" data-key="appDescription">Your complete agricultural companion for better farming practices and improved yield.</p>
+        </div>
+    </section>
+    
+    <section class="main-content">
+        <div class="container">
+            <div class="grid">
+                <div class="crops-section">
+                    <h2 class="section-title translatable" data-key="selectCrop">Select a Crop</h2>
+                    <div class="crop-grid" id="crop-grid">
+                        <!-- Actual crop cards instead of loading skeletons -->
+                        <div class="crop-card" id="crop-1" onclick="showCropDetails(1)">
+                            <img src="https://milnepublishing.geneseo.edu/app/uploads/sites/235/2020/06/image1-34-1024x768.jpeg" alt="Rice">
+                            <div class="crop-card-content">
+                                <h3><span class="translatable" data-key="rice"> Rice</span></h3>
+                                <p><span class="translatable" data-key="season">Season</span>: June - July</p>
+                            </div>
+                        </div>
+                        
+                        <div class="crop-card" id="crop-2" onclick="showCropDetails(2)">
+                            <img src="https://imgs.search.brave.com/wADBgYcDvBKhHdiGbywdB3IGNteXO9FYBu5h8egCBCQ/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9tZWRp/YS5pc3RvY2twaG90/by5jb20vaWQvNDc5/NjI5NDM4L3Bob3Rv/L3doZWF0LmpwZz9z/PTYxMng2MTImdz0w/Jms9MjAmYz1mSnBU/QkNMVmFzbF9kYk1n/a29mWWVadXhCYmhw/eFo2dU05SXhnTXpF/aUFvPQ" alt="Wheat">
+                            <div class="crop-card-content">
+                                <h3><span class="translatable" data-key="wheat"> Wheat</span></h3>
+                                <p><span class="translatable" data-key="season">Season</span>: October - November</p>
+                            </div>
+                        </div>
+                        
+                        <div class="crop-card" id="crop-3" onclick="showCropDetails(3)">
+                            <img src="https://www.agrifarming.in/wp-content/uploads/Guide-to-Finger-Millet-Cultivation-2.jpg" alt="Ragi">
+                            <div class="crop-card-content">
+                                <h3><span class="translatable" data-key="ragi"> Ragi</span></h3>
+                                <p><span class="translatable" data-key="season">Season</span>: June - July</p>
+                            </div>
+                        </div>
+                        
+                        <div class="crop-card" id="crop-4" onclick="showCropDetails(4)">
+                            <img src="https://www.greenlife.co.ke/wp-content/uploads/2022/04/Mangoes.jpg" alt="Mango">
+                            <div class="crop-card-content">
+                                <h3><span class="translatable" data-key="mango"> Mango</span></h3>
+                                <p><span class="translatable" data-key="season">Season</span>: Planting: June - July</p>
+                            </div>
+                        </div>
+                        
+                        <div class="crop-card" id="crop-5" onclick="showCropDetails(5)">
+                            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSdR0uWEDqxB4ynmHpJIz13bFaQmO11IsH3ow&s" alt="Chilli">
+                            <div class="crop-card-content">
+                                <h3><span class="translatable" data-key="chilli"> Chilli</span></h3>
+                                <p><span class="translatable" data-key="season">Season</span>: February - March</p>
+                            </div>
+                        </div>
+                        <div class="crop-card" id="crop-6" onclick="showCropDetails(6)">
+                            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTeibNaZ0n1jGCVsLLUfjUhtRU18gMBxcuV5A&s" alt="Sugarcane">
+                            <div class="crop-card-content">
+                                <h3><span class="translatable" data-key="sugarcane"> Sugarcane</span></h3>
+                                <p><span class="translatable" data-key="season">Season</span>: January - March</p>                            </div>
+                        </div>
+                    </div>
+                </div>
+                                
+                <div class="sidebar">
+                    <div class="weather-widget">
+                        <div class="widget-header">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M12 15C13.6569 15 15 13.6569 15 12C15 10.3431 13.6569 9 12 9C10.3431 9 9 10.3431 9 12C9 13.6569 10.3431 15 12 15Z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M12 5V3M12 21V19M4.93 19.07L6.34 17.66M17.66 6.34L19.07 4.93M3 12H5M19 12H21M4.93 4.93L6.34 6.34M17.66 17.66L19.07 19.07" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                            <span id="current-weather" class="translatable" data-key="currentWeather">Current Weather</span>
+                        </div>
+                        
+                        <!-- Location permission request -->
+                        <div id="location-permission" class="location-permission hidden">
+                            <div>
+                                <p class="translatable" data-key="locationPermission">Allow location access to see weather in your area</p>
+                            </div>
+                            <button id="btn-allow-location" class="btn-allow translatable" data-key="allowLocation">Allow</button>
+                        </div>
+                        
+                        <!-- Weather loading state -->
+                        <div id="weather-loading" class="weather-loading">
+                            <div class="loading-spinner"></div>
+                            <p class="translatable" data-key="loadingWeather">Loading weather data...</p>
+                        </div>
+                        
+                        <!-- Weather content -->
+                        <div id="weather-content" class="widget-content hidden">
+                            <div class="weather-main">
+                                <div>
+                                    <div class="temperature" id="temperature">--°C</div>
+                                    <div class="condition" id="condition">--</div>
+                                </div>
+                                <img id="weather-icon" class="weather-condition-icon" src="" alt="Weather condition">
+                            </div>
+                            
+                            <div class="weather-details">
+                                <div class="weather-detail">
+                                    <div class="weather-icon">
+                                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        </svg>
+                                    </div>
+                                    <span><span class="translatable" data-key="humidity">Humidity</span>: <span id="humidity">--%</span></span>
+                                </div>
+                                <div class="weather-detail">
+                                    <div class="weather-icon">
+                                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        </svg>
+                                    </div>
+                                    <span><span class="translatable" data-key="wind">Wind</span>: <span id="wind-speed">-- km/h</span></span>
+                                </div>
+                                <div class="weather-detail">
+                                    <div class="weather-icon">
+                                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M4 4v16a2 2 0 002 2h12a2 2 0 002-2V8.342a2 2 0 00-.602-1.43l-4.44-4.342A2 2 0 0013.56 2H6a2 2 0 00-2 2z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        </svg>
+                                    </div>
+                                    <span><span class="translatable" data-key="precipitation">Precipitation</span>: <span id="precipitation">--%</span></span>
+                                </div>
+                                <div class="weather-detail">
+                                    <div class="weather-icon">
+                                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M12 21C16.9706 21 21 16.9706 21 12C21 7.02944 16.9706 3 12 3C7.02944 3 3 7.02944 3 12C3 16.9706 7.02944 21 12 21Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                            <path d="M12 6V12L15 15" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        </svg>
+                                    </div>
+                                    <span><span class="translatable" data-key="updated">Updated</span>: <span id="last-updated">--</span></span>
+                                </div>
+                            </div>
+                            
+                            <!-- Forecast section -->
+                            <div class="forecast-section">
+                                <h3 class="forecast-title translatable" data-key="hourlyForecast">24-Hour Forecast</h3>
+                                <div class="forecast-items" id="forecast-items">
+                                    <!-- Forecast items will be added dynamically -->
+                                </div>
+                            </div>
+                            <!-- Heavy Rain Alert (shown conditionally) -->
+                            <div class="alert">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                                <div>
+                                    <span class="alert-title translatable" data-key="heavyRainAlert">Heavy Rain Alert</span>
+                                    <p class="translatable" data-key="heavyRainExpected">Heavy rainfall expected in the next 12 hours. Consider postponing any field activities.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="disease-widget">
+                        <div class="disease-header">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M12 9V11M12 15H12.01M5.07183 19H18.9282C20.4678 19 21.4301 17.3333 20.6603 16L13.7321 4C12.9623 2.66667 11.0377 2.66667 10.2679 4L3.33975 16C2.56995 17.3333 3.53223 19 5.07183 19Z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                            <span id="disease-alerts" class="translatable" data-key="diseaseAlerts">Disease Alerts</span>
+                        </div>
+                        <div id="disease-content">
+                            <!-- Actual disease alert content instead of skeleton loading -->
+                            <div class="alert-item">
+                                <div class="alert-top">
+                                    <h3 class="alert-title">Rice Blast Disease</h3>
+                                    <span class="badge high">High</span>
+                                </div>
+                                <p class="alert-meta">Jan 15, 2025 - <span class="translatable" data-key="affectedAreas">Affected Areas</span>: Mandya, Mysuru, Hassan</p>
+                                <p class="alert-description">Fungal disease causing lesions on leaves, nodes and panicles. Can lead to significant yield loss if not treated promptly.</p>
+                                <div>
+                                    <h4 class="prevention-title translatable" data-key="preventionMeasures">Prevention Measures</h4>
+                                    <p class="prevention-text">Use disease-resistant varieties, apply recommended fungicides, avoid excessive nitrogen application, maintain field sanitation.</p>
+                                </div>
+                            </div>
+                            
+                            <div class="other-alerts">
+                                <h4 class="translatable" data-key="otherAlerts">Other Alerts</h4>
+                                <ul class="alert-list">
+                                    <li class="alert-list-item">
+                                        <div class="alert-list-info">
+                                            <h5>Powdery Mildew</h5>
+                                            <span class="alert-list-date">May 28, 2023</span>
+                                        </div>
+                                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M9 5l7 7-7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        </svg>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <section id="features" class="features">
+        <div class="container">
+            <h2 class="features-title">Key Features</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12 6.25V19.25M12 6.25C10.8 5.5 9.25 5 7.5 5C5.75 5 4.2 5.5 3 6.25V19.25C4.2 18.5 5.75 18 7.5 18C9.25 18 10.8 18.5 12 19.25M12 6.25C13.2 5.5 14.75 5 16.5 5C18.25 5 19.8 5.5 21 6.25V19.25C19.8 18.5 18.25 18 16.5 18C14.75 18 13.2 18.5 12 19.25" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                    <h3 class="feature-title">Crop Information</h3>
+                    <p class="feature-description">Detailed guides on planting, growing, and harvesting various crops.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M3 15C3 12.7909 4.79086 11 7 11C9.20914 11 11 12.7909 11 15C11 17.2091 9.20914 19 7 19C4.79086 19 3 17.2091 3 15Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M16 18L17 21H21M21 15C21 12.7909 19.2091 11 17 11C14.7909 11 13 12.7909 13 15C13 17.2091 14.7909 19 17 19C19.2091 19 21 17.2091 21 15Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M11 13.6095C9.38922 11.9828 7 9.43709 7 6C7 3.23858 9.23858 1 12 1C14.7614 1 17 3.23858 17 6C17 9.43709 14.6108 11.9828 13 13.6095" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                    <h3 class="feature-title">Weather Forecasting</h3>
+                    <p class="feature-description">Real-time weather updates and 12-hour advance warnings for severe conditions.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12 9V11M12 15H12.01M5.07183 19H18.9282C20.4678 19 21.4301 17.3333 20.6603 16L13.7321 4C12.9623 2.66667 11.0377 2.66667 10.2679 4L3.33975 16C2.56995 17.3333 3.53223 19 5.07183 19Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                    <h3 class="feature-title">Disease Alerts</h3>
+                    <p class="feature-description">Timely alerts about crop diseases and pests in your area with prevention measures.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M3 5H12M9 3V5M12 7H12.01M5.07 7C4.93 7 4.8 7 4.68 7.05M12 11C7.5 13.5 5 14.5 3 14.5M14.57 17H19M12 3H14.5M14.5 3L19 5.5M14.5 3L19 9M15 21L11 15.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                    <h3 class="feature-title">Multilingual Support</h3>
+                    <p class="feature-description">Access information in English, Hindi, and Kannada to overcome language barriers.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div>
+                    <div class="footer-logo">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12 6.25V19.25M12 6.25C10.8 5.5 9.25 5 7.5 5C5.75 5 4.2 5.5 3 6.25V19.25C4.2 18.5 5.75 18 7.5 18C9.25 18 10.8 18.5 12 19.25M12 6.25C13.2 5.5 14.75 5 16.5 5C18.25 5 19.8 5.5 21 6.25V19.25C19.8 18.5 18.25 18 16.5 18C14.75 18 13.2 18.5 12 19.25" stroke="#f77f00" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                        <span class="footer-logo-text"><span>KrishE</span>Mitra</span>
+                    </div>
+                    <p class="footer-description" id="footer-description">Your complete agricultural companion for better farming practices and improved yield.</p>
+                </div>
+                
+                <div>
+                    <h3 class="footer-heading">Quick Links</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">Home</a></li>
+                        <li><a href="about-us.html">About Us</a></li>
+                        <li><a href="#">Features</a></li>
+                        <li><a href="cropcal.html">Crop Calendar</a></li>
+                        <li><a href="payment.html">Subscriptions</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h3 class="footer-heading">Contact Us</h3>
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M22 6C21.5 6.4 21 6.7 20.5 6.8C21.1 6.5 21.5 5.9 21.7 5.3C21.2 5.6 20.7 5.8 20.1 5.9C19.6 5.3 19 5 18.2 5C16.7 5 15.5 6.2 15.5 7.7C15.5 7.9 15.5 8.1 15.6 8.3C13.4 8.1 11.4 7.1 10 5.4C9.8 5.8 9.7 6.2 9.7 6.6C9.7 7.4 10.1 8.1 10.7 8.5C10.4 8.5 10.1 8.4 9.8 8.3C9.8 9.6 10.7 10.7 11.9 10.9C11.7 11 11.5 11 11.3 11C11.1 11 11 11 10.9 11C11.1 12.1 12.1 12.9 13.2 12.9C12.2 13.6 11 14 9.7 14C9.5 14 9.3 14 9.1 14C10.2 14.7 11.4 15.1 12.7 15.1C18.2 15.1 21.1 10.6 21.1 6.7C21.1 6.6 21.1 6.5 21.1 6.4C21.6 6.1 22 5.7 22 6Z" fill="currentColor"/>
+                            </svg>
+                        </div>
+                        <span>support@krishemitra.com</span>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M22 6C21.5 6.4 21 6.7 20.5 6.8C21.1 6.5 21.5 5.9 21.7 5.3C21.2 5.6 20.7 5.8 20.1 5.9C19.6 5.3 19 5 18.2 5C16.7 5 15.5 6.2 15.5 7.7C15.5 7.9 15.5 8.1 15.6 8.3C13.4 8.1 11.4 7.1 10 5.4C9.8 5.8 9.7 6.2 9.7 6.6C9.7 7.4 10.1 8.1 10.7 8.5C10.4 8.5 10.1 8.4 9.8 8.3C9.8 9.6 10.7 10.7 11.9 10.9C11.7 11 11.5 11 11.3 11C11.1 11 11 11 10.9 11C11.1 12.1 12.1 12.9 13.2 12.9C12.2 13.6 11 14 9.7 14C9.5 14 9.3 14 9.1 14C10.2 14.7 11.4 15.1 12.7 15.1C18.2 15.1 21.1 10.6 21.1 6.7C21.1 6.6 21.1 6.5 21.1 6.4C21.6 6.1 22 5.7 22 6Z" fill="currentColor"/>
+                            </svg>
+                        </div>
+                        <span>+91 1800-123-4567</span>
+                    </div>
+                    <div class="social-links">
+                        <a href="#" class="social-link">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M22 6C21.5 6.4 21 6.7 20.5 6.8C21.1 6.5 21.5 5.9 21.7 5.3C21.2 5.6 20.7 5.8 20.1 5.9C19.6 5.3 19 5 18.2 5C16.7 5 15.5 6.2 15.5 7.7C15.5 7.9 15.5 8.1 15.6 8.3C13.4 8.1 11.4 7.1 10 5.4C9.8 5.8 9.7 6.2 9.7 6.6C9.7 7.4 10.1 8.1 10.7 8.5C10.4 8.5 10.1 8.4 9.8 8.3C9.8 9.6 10.7 10.7 11.9 10.9C11.7 11 11.5 11 11.3 11C11.1 11 11 11 10.9 11C11.1 12.1 12.1 12.9 13.2 12.9C12.2 13.6 11 14 9.7 14C9.5 14 9.3 14 9.1 14C10.2 14.7 11.4 15.1 12.7 15.1C18.2 15.1 21.1 10.6 21.1 6.7C21.1 6.6 21.1 6.5 21.1 6.4C21.6 6.1 22 5.7 22 6Z" fill="white"/>
+                            </svg>
+                        </a>
+                        <a href="#" class="social-link">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M12 2.03997C6.5 2.03997 2 6.52997 2 12.06C2 16.06 4.66 19.36 8.44 20.76V14.96H6.56V12.06H8.44V9.84997C8.44 7.33997 9.93 5.95997 12.22 5.95997C13.31 5.95997 14.45 6.14997 14.45 6.14997V7.95997H13.19C11.95 7.95997 11.56 8.64997 11.56 9.35997V12.06H14.34L13.89 14.96H11.56V20.76C13.9164 20.064 15.9488 18.6133 17.3602 16.6225C18.7716 14.6317 19.4856 12.1836 19.4 9.70997C19.21 5.45997 15.94 2.03997 12 2.03997Z" fill="white"/>
+                            </svg>
+                        </a>
+                        <a href="#" class="social-link">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M8 3C5.239 3 3 5.239 3 8V16C3 18.761 5.239 21 8 21H16C18.761 21 21 18.761 21 16V8C21 5.239 18.761 3 16 3H8ZM18 5C18.552 5 19 5.448 19 6C19 6.552 18.552 7 18 7C17.448 7 17 6.552 17 6C17 5.448 17.448 5 18 5ZM12 7C14.761 7 17 9.239 17 12C17 14.761 14.761 17 12 17C9.239 17 7 14.761 7 12C7 9.239 9.239 7 12 7ZM12 9C11.2044 9 10.4413 9.31607 9.87868 9.87868C9.31607 10.4413 9 11.2044 9 12C9 12.7956 9.31607 13.5587 9.87868 14.1213C10.4413 14.6839 11.2044 15 12 15C12.7956 15 13.5587 14.6839 14.1213 14.1213C14.6839 13.5587 15 12.7956 15 12C15 11.2044 14.6839 10.4413 14.1213 9.87868C13.5587 9.31607 12.7956 9 12 9Z" fill="white"/>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                <p>&copy; <span id="current-year">2023</span> KrishEMitra. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <div class="modal-overlay" id="crop-modal">
+        <div class="modal">
+            <div class="modal-header">
+                <h2 class="modal-title" id="modal-crop-title">Crop Information</h2>
+                <button class="close-modal" id="close-modal">×</button>
+            </div>
+            <div class="modal-body" id="modal-body">
+                <!-- Crop details will be filled dynamically -->
+                <div>
+                    <img id="crop-image" class="crop-image" src="" alt="Crop Image">
+                    <div>
+                        <h3 class="translatable" data-key="season">Season</h3>
+                        <p id="crop-season"></p>
+                    </div>
+                    <div>
+                        <h3 class="translatable" data-key="growthPeriod">Growth Period</h3>
+                        <p id="crop-growth-period"></p>
+                    </div>
+                    <div>
+                        <h3 class="translatable" data-key="waterRequirement">Water Requirement</h3>
+                        <p id="crop-water-requirement"></p>
+                    </div>
+                    <div>
+                        <h3 class="translatable" data-key="soilType">Soil Type</h3>
+                        <p id="crop-soil-type"></p>
+                    </div>
+                </div>
+                <div>
+                    <div>
+                        <h3 class="translatable" data-key="plantingInfo">Planting Information</h3>
+                        <p id="crop-planting-info"></p>
+                    </div>
+                    <div>
+                        <h3 class="translatable" data-key="commonDiseases">Common Diseases</h3>
+                        <ul id="crop-diseases"></ul>
+                    </div>
+                    <div>
+                        <h3 class="translatable" data-key="recommendedPesticides">Recommended Pesticides</h3>
+                        <ul id="crop-pesticides"></ul>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" id="close-modal-btn" class="translatable" data-key="close">Close</button>
+            </div>
+        </div>
+    </div>
+
+     <script>
+        // ========== WeatherAPI Configuration ==========
+        // Replace YOUR_API_KEY with your actual WeatherAPI key
+        const WEATHERAPI_KEY = "f008622f02ad4eefb09150244252803";
+        
+        // ========== Weather Data Handling ==========
+        let currentWeather = null;
+        let weatherForecast = null;
+        
+        // Translations
+        const translations = {
+            en: {
+                appTitle: 'KrishEMitra',
+                appDescription: 'Your complete agricultural companion for better farming practices and improved yield.',
+                selectCrop: 'Select a Crop',
+                season: 'Season',
+                rice:"Rice",
+                chilli:"Chilli",
+                mango: 'Mango',
+                cropcal:'Crop Calendar',
+                riceBlast: 'Rice Blast Disease',
+                sugarcane: 'Sugarcane',
+                ragi: 'Ragi',
+                wheat: 'Wheat',
+                about:'About Us',
+                growthPeriod: 'Growth Period',
+                waterRequirement: 'Water Requirement',
+                soilType: 'Soil Type',
+                plantingInfo: 'Planting Information',
+                commonDiseases: 'Common Diseases',
+                recommendedPesticides: 'Recommended Pesticides',
+                currentWeather: 'Current Weather',
+                humidity: 'Humidity',
+                wind: 'Wind',
+                precipitation: 'Precipitation',
+                heavyRainAlert: 'Heavy Rain Alert',
+                heavyRainExpected: 'Heavy rainfall expected in the next 12 hours. Consider postponing any field activities.',
+                weatherAlerts: 'Weather Alerts',
+                diseaseAlerts: 'Disease Alerts',
+                affectedAreas: 'Affected Areas',
+                preventionMeasures: 'Prevention Measures',
+                otherAlerts: 'Other Alerts',
+                weatherDataUnavailable: 'Weather data is unavailable at the moment.',
+                noDiseaseAlerts: 'No disease alerts at the moment.',
+                close: 'Close',
+                home: 'Home',
+                crops: 'Crops',
+                weather: 'Weather',
+                resources: 'Resources',
+                premium: 'Subscription',
+                hourlyForecast: '24-Hour Forecast',
+                locationPermission: 'Allow location access to see weather in your area',
+                allowLocation: 'Allow',
+                loadingWeather: 'Loading weather data...',
+                updated: 'Updated',
+                weatherError: 'Could not load weather data. Please try again later.',
+                chance: 'Chance',
+                of: 'of',
+                rain: 'rain',
+                feels: 'Feels like',
+                PM:'Powdery Mildew',
+                sugarcane:'Sugarcane',
+            },
+            hi: {
+                appTitle: 'कृषेमित्र',
+                appDescription: 'बेहतर कृषि प्रथाओं और बेहतर उपज के लिए आपका पूर्ण कृषि साथी।',
+                selectCrop: 'फसल चुनें',
+                season: 'मौसम',
+                about:'हमारे बारे में',
+                mango: 'आम',
+                riceBlast: 'चावल का विस्फोट रोग',
+                ragi: 'रागी',
+                wheat: 'गेहूं',
+                rice: 'चावल',
+                cropcal:'फसल कैलेंडर',
+                updated: 'अद्यतन',
+                sugarcane: 'गन्ना',
+                chilli: 'मिर्च',
+                precipitation: 'वृष्टि',
+                sustainability: 'सततता',
+                growthPeriod: 'विकास अवधि',
+                waterRequirement: 'पानी की आवश्यकता',
+                soilType: 'मिट्टी का प्रकार',
+                plantingInfo: 'रोपण जानकारी',
+                commonDiseases: 'सामान्य बीमारियां',
+                recommendedPesticides: 'अनुशंसित कीटनाशक',
+                currentWeather: 'वर्तमान मौसम: बैंगलोर',
+                humidity: 'आर्द्रता',
+                wind: 'हवा',
+                rainfall: 'वर्षा',
+                hourlyForecast: '24-घंटे का पूर्वानुमान',
+                heavyRainAlert: 'भारी वर्षा चेतावनी',
+                heavyRainExpected: 'अगले 12 घंटों में भारी वर्षा की उम्मीद है। किसी भी खेत की गतिविधियों को स्थगित करने पर विचार करें।',
+                weatherAlerts: 'मौसम चेतावनी',
+                diseaseAlerts: 'रोग चेतावनी',
+                affectedAreas: 'प्रभावित क्षेत्र',
+                preventionMeasures: 'रोकथाम के उपाय',
+                otherAlerts: 'अन्य चेतावनियां',
+                weatherDataUnavailable: 'मौसम की जानकारी इस समय उपलब्ध नहीं है।',
+                noDiseaseAlerts: 'इस समय कोई रोग चेतावनी नहीं है।',
+                close: 'बंद करें',
+                home: 'होम',
+                crops: 'फसलें',
+                weather: 'मौसम',
+                resources: 'संसाधन',
+                premium: 'प्रीमियम',
+                measures:'रोग-प्रतिरोधी किस्मों का उपयोग करें, अनुशंसित फफूंदनाशकों का प्रयोग करें, अत्यधिक नाइट्रोजन के उपयोग से बचें, खेत की स्वच्छता बनाए रखें।',
+                areas:' मांड्या, मैसूर, हासन',
+                ricealert:'पत्तियों, गांठों और बालियों पर घाव उत्पन्न करने वाला फफूंदी रोग। यदि समय पर उपचार न किया जाए तो यह उपज में गंभीर नुकसान पहुंचा सकता है।',
+                PM:'चूर्णिल फफूंदी',
+                sugarcane:'गन्ना',
+            },
+            kn: {appTitle: 'ಕೃಷೇಮಿತ್ರ',
+                appDescription: 'ಉತ್ತಮ ಕೃಷಿ ಪದ್ಧತಿಗಳು ಮತ್ತು ಸುಧಾರಿತ ಇಳುವರಿಗಾಗಿ ನಿಮ್ಮ ಸಂಪೂರ್ಣ ಕೃಷಿ ಸಂಗಾತಿ.',
+                selectCrop: 'ಬೆಳೆಯನ್ನು ಆಯ್ಕೆಮಾಡಿ',
+                season: 'ಋತು',
+                about:'ನಮ್ಮ ಬಗ್ಗೆ',
+                riceBlast: 'ಅಕ್ಕಿ ಬ್ಲಾಸ್ಟ್ ರೋಗ',
+                mango: 'ಮಾವು',
+                rice: 'ಅಕ್ಕಿ',
+                cropcal:'ಬೆಳೆ ಕ್ಯಾಲೆಂಡರ್',
+                chilli: 'ಮೆಣಸು',
+                ragi: 'ರಾಗಿ',
+                wheat: 'ಗೋಧಿ',
+                sugarcane: 'ಗದ್ದೆ',
+                precipitation: 'ಮಳೆ',
+                updated:'ಅಪ್ಡೇಟ್',
+                hourlyForecast: '24-ಗಂಟೆಗಳ ಮುನ್ಸೂಚನೆ',
+                sustainability: 'ಸ್ಥಿರತೆ',
+                growthPeriod: 'ಬೆಳವಣಿಗೆ ಅವಧಿ',
+                waterRequirement: 'ನೀರಿನ ಅವಶ್ಯಕತೆ',
+                soilType: 'ಮಣ್ಣಿನ ಪ್ರಕಾರ',
+                plantingInfo: 'ನೆಡುವ ಮಾಹಿತಿ',
+                commonDiseases: 'ಸಾಮಾನ್ಯ ರೋಗಗಳು',
+                recommendedPesticides: 'ಶಿಫಾರಸು ಮಾಡಲಾದ ಕೀಟನಾಶಕಗಳು',
+                currentWeather: 'ಪ್ರಸ್ತುತ ಹವಾಮಾನ: ಬೆಂಗಳೂರು',
+                humidity: 'ಆರ್ದ್ರತೆ',
+                wind: 'ಗಾಳಿ',
+                rainfall: 'ಮಳೆ',
+                heavyRainAlert: 'ಭಾರೀ ಮಳೆ ಎಚ್ಚರಿಕೆ',
+                heavyRainExpected: 'ಮುಂದಿನ 12 ಗಂಟೆಗಳಲ್ಲಿ ಭಾರೀ ಮಳೆ ನಿರೀಕ್ಷಿಸಲಾಗಿದೆ. ಯಾವುದೇ ಕ್ಷೇತ್ರದ ಚಟುವಟಿಕೆಗಳನ್ನು ಮುಂದೂಡಲು ಪರಿಗಣಿಸಿ.',
+                weatherAlerts: 'ಹವಾಮಾನ ಎಚ್ಚರಿಕೆಗಳು',
+                diseaseAlerts: 'ರೋಗ ಎಚ್ಚರಿಕೆಗಳು',
+                affectedAreas: 'ಪ್ರಭಾವಿತ ಪ್ರದೇಶಗಳು',
+                preventionMeasures: 'ತಡೆಗಟ್ಟುವ ಕ್ರಮಗಳು',
+                otherAlerts: 'ಇತರ ಎಚ್ಚರಿಕೆಗಳು',
+                weatherDataUnavailable: 'ಹವಾಮಾನ ಮಾಹಿತಿ ಪ್ರಸ್ತುತ ಲಭ್ಯವಿಲ್ಲ.',
+                noDiseaseAlerts: 'ಪ್ರಸ್ತುತ ಯಾವುದೇ ರೋಗ ಎಚ್ಚರಿಕೆಗಳಿಲ್ಲ.',
+                close: 'ಮುಚ್ಚಿ',
+                home: 'ಮುಖಪುಟ',
+                crops: 'ಬೆಳೆಗಳು',
+                weather: 'ಹವಾಮಾನ',
+                resources: 'ಸಂಪನ್ಮೂಲಗಳು',
+                premium: 'ಪ್ರೀಮಿಯಂ',
+                measures:'ರೋಗ ನಿರೋಧಕ ಪ್ರಭೇದಗಳನ್ನು ಬಳಸಿ, ಶಿಫಾರಸು ಮಾಡಲಾದ ಶಿಲೀಂಧ್ರನಾಶಕಗಳನ್ನು ಅನ್ವಯಿಸಿ, ಹೆಚ್ಚಿನ ನೈಟ್ರೋಜನ್ ಅನ್ವಯಿಸುವುದನ್ನು ತಕ್ಷಣ ತಡೆಯಿರಿ, ಕ್ಷೇತ್ರದ ಸ್ವಚ್ಛತೆ ಕಾಪಾಡಿ.',
+                areas:'ಮಂಡ್ಯ, ಮೈಸೂರು, ಹಾಸನ',
+                ricealert:'ಇಲೆಗಳು, ಮುಳ್ಳುಗಳು ಮತ್ತು ಗಂಧಗಳಲ್ಲಿ ಗಾಯಗಳನ್ನು ಉಂಟುಮಾಡುವ ಶಿಲೀಂಧ್ರ ರೋಗ. ಸರಿಯಾದ ಸಮಯದಲ್ಲಿ ಚಿಕಿತ್ಸೆ ನೀಡದಿದ್ದರೆ, ಮಹತ್ವದ ಇಳುವರಿ ನಷ್ಟಕ್ಕೆ ಕಾರಣವಾಗಬಹುದು.',
+                PM:'ಪುಡಿ ಶಿಲೀಂಧ್ರ ರೋಗ',
+                sugarcane:'ಕಬ್ಬು',
+
+            }
+        };
+
+        // Crop data
+        const crops = [
+            {
+                id: 1,
+                name: "Rice",
+                imagePath: "https://milnepublishing.geneseo.edu/app/uploads/sites/235/2020/06/image1-34-1024x768.jpeg",
+                plantingInfo: "Rice is typically grown in flooded fields. Prepare the land by plowing and leveling. Sow seeds in a nursery first, then transplant the seedlings when they are 20-30 days old. Maintain water level of 2-5 cm during the growing period.",
+                season: "June - July",
+                growthPeriod: "110-150 days",
+                waterRequirement: "High",
+                soilType: "Clay loam",
+                diseases: [
+                    "Rice Blast: Fungal disease causing lesions on leaves.",
+                    "Bacterial Leaf Blight: Causes yellowish stripes on leaf blades.",
+                    "Sheath Blight: Fungal disease affecting the leaf sheath."
+                ],
+                pesticides: [
+                    "Tricyclazole for Rice Blast",
+                    "Streptocycline for Bacterial Leaf Blight",
+                    "Hexaconazole for Sheath Blight"
+                ]
+            },
+            {
+                id: 2,
+                name: "Wheat",
+                imagePath: "https://imgs.search.brave.com/wADBgYcDvBKhHdiGbywdB3IGNteXO9FYBu5h8egCBCQ/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9tZWRp/YS5pc3RvY2twaG90/by5jb20vaWQvNDc5/NjI5NDM4L3Bob3Rv/L3doZWF0LmpwZz9z/PTYxMng2MTImdz0w/Jms9MjAmYz1mSnBU/QkNMVmFzbF9kYk1n/a29mWWVadXhCYmhw/eFo2dU05SXhnTXpF/aUFvPQ",
+                plantingInfo: "Wheat is generally sown in well-prepared soil. The seeds are drilled into the soil at a depth of 4-5 cm with proper spacing. Irrigation should be provided at critical growth stages.",
+                season: "October - November",
+                growthPeriod: "120-150 days",
+                waterRequirement: "Medium",
+                soilType: "Loamy",
+                diseases: [
+                    "Rust: Appears as brown, yellow or black pustules on leaves and stems.",
+                    "Powdery Mildew: White powdery growth on leaves and stems.",
+                    "Loose Smut: The entire head turns into a mass of black spores."
+                ],
+                pesticides: [
+                    "Propiconazole for Rust",
+                    "Tebuconazole for Powdery Mildew",
+                    "Carbendazim for Loose Smut"
+                ]
+            },
+            {
+                id: 3,
+                name: "Ragi",
+                imagePath: "https://www.agrifarming.in/wp-content/uploads/Guide-to-Finger-Millet-Cultivation-2.jpg",
+                plantingInfo: "Ragi is drought-resistant and can be grown in areas with less rainfall. The seeds are tiny and should be sown at a shallow depth. It requires less water and care compared to other cereals.",
+                season: "June - July",
+                growthPeriod: "90-120 days",
+                waterRequirement: "Low",
+                soilType: "Sandy loam",
+                diseases: [
+                    "Blast: Affects leaves causing spindle-shaped lesions.",
+                    "Blight: Causes large, irregular patches on leaves.",
+                    "Smut: Black powder-like spores on the earhead."
+                ],
+                pesticides: [
+                    "Carbendazim for Blast",
+                    "Mancozeb for Blight",
+                    "Thiram for seed treatment against Smut"
+                ]
+            },
+            {
+                id: 4,
+                name: "Mango",
+                imagePath: "https://images.unsplash.com/photo-1553279768-865429fa0078?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
+                plantingInfo: "Mango trees require well-drained soil and full sun. Dig a pit of 1m × 1m × 1m size and fill it with topsoil mixed with compost. Plant the sapling and provide support. Regular watering is required until established.",
+                season: "Planting: June - July, Fruiting: March - June",
+                growthPeriod: "3-5 years for first fruiting",
+                waterRequirement: "Medium",
+                soilType: "Deep loamy",
+                diseases: [
+                    "Powdery Mildew: White powdery growth on young leaves and inflorescence.",
+                    "Anthracnose: Black spots on leaves, flowers and fruits.",
+                    "Dieback: Gradual death of twigs from the tip downward."
+                ],
+                pesticides: [
+                    "Sulfur compounds for Powdery Mildew",
+                    "Copper oxychloride for Anthracnose",
+                    "Carbendazim for Dieback"
+                ]
+            },
+            {
+                id: 5,
+                name: "Chilli",
+                imagePath: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSdR0uWEDqxB4ynmHpJIz13bFaQmO11IsH3ow&s",
+                plantingInfo: "Chilli plants need well-drained soil with good organic content. Seeds are first sown in nursery beds and seedlings are transplanted after 4-6 weeks. Regular but moderate watering is important as excess water can lead to root rot.",
+                season: "Varies by region, typically February - March or June - July",
+                growthPeriod: "70-90 days",
+                waterRequirement: "Medium",
+                soilType: "Sandy loam",
+                diseases: [
+                    "Damping off: Affects seedlings causing them to collapse.",
+                    "Anthracnose: Causes sunken lesions on fruits.",
+                    "Leaf curl: Curling and crinkling of leaves due to virus."
+                ],
+                pesticides: [
+                    "Copper fungicides for Damping off",
+                    "Mancozeb for Anthracnose",
+                    "Imidacloprid for controlling vectors of Leaf curl virus"
+                ]
+            },
+            {
+                id: 6,
+                name: "Sugarcane",
+                imagePath: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTeibNaZ0n1jGCVsLLUfjUhtRU18gMBxcuV5A&s",
+                plantingInfo: "Sugarcane requires fertile, well-drained soils with high organic matter. Setts (cuttings) with 2-3 buds are planted in furrows at a depth of 10-15 cm. Frequent irrigation is necessary during the growth stages, especially in dry periods.",
+                season: "Planting seasons vary, but typically February - March or September - October.",
+                growthPeriod: "10-16 months (depending on variety and region)",
+                waterRequirement: "High",
+                soilType: "Loamy or clay loam with good drainage",
+                diseases: [
+                    "Damping off: Affects seedlings causing them to collapse.",
+                    "Anthracnose: Causes sunken lesions on fruits.",
+                    "Leaf curl: Curling and crinkling of leaves due to virus."
+                ],
+                pesticides: [
+                    "Copper fungicides for Damping off",
+                    "Mancozeb for Anthracnose",
+                    "Imidacloprid for controlling vectors of Leaf curl virus"
+                ]
+            }
+
+               
+        ];
+
+        // Current language
+        let currentLanguage = 'en';
+
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', function() {
+            // Language selector
+            initLanguageSelector();
+            
+            // Modal
+            initModal();
+            
+            // Set current year in footer
+            setCurrentYear();
+            
+            // Mobile menu
+            initMobileMenu();
+            
+            // Initialize weather
+            initWeather();
+            
+            // Apply initial translations
+            updateTranslations();
+        });
+
+        // Initialize language selector
+        function initLanguageSelector() {
+            const langBtn = document.getElementById('lang-btn');
+            const langOptions = document.getElementById('lang-options');
+            
+            if (langBtn && langOptions) {
+                langBtn.addEventListener('click', function() {
+                    langOptions.classList.toggle('active');
+                });
+                
+                // Close language dropdown when clicking outside
+                document.addEventListener('click', function(event) {
+                    if (!langBtn.contains(event.target) && !langOptions.contains(event.target)) {
+                        langOptions.classList.remove('active');
+                    }
+                });
+            }
+            
+            // Language options
+            document.querySelectorAll('.language-option').forEach(option => {
+                option.addEventListener('click', function() {
+                    const lang = this.getAttribute('data-lang');
+                    changeLanguage(lang);
+                    langOptions.classList.remove('active');
+                });
+            });
+        }
+
+        // Initialize modal
+        function initModal() {
+            const cropModal = document.getElementById('crop-modal');
+            const closeModalBtns = document.querySelectorAll('#close-modal, #close-modal-btn');
+            
+            closeModalBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    cropModal.classList.remove('active');
+                });
+            });
+            
+            // Close modal on outside click
+            cropModal.addEventListener('click', function(event) {
+                if (event.target === cropModal) {
+                    cropModal.classList.remove('active');
+                }
+            });
+        }
+
+        // Set current year
+        function setCurrentYear() {
+            const currentYearElement = document.getElementById('current-year');
+            if (currentYearElement) {
+                currentYearElement.textContent = new Date().getFullYear().toString();
+            }
+        }
+
+        // Initialize mobile menu
+        function initMobileMenu() {
+            const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+            const mobileNav = document.getElementById('mobile-nav');
+            const closeMobileNav = document.getElementById('close-mobile-nav');
+            
+            if (mobileMenuBtn && mobileNav && closeMobileNav) {
+                mobileMenuBtn.addEventListener('click', function() {
+                    mobileNav.classList.add('active');
+                });
+                
+                closeMobileNav.addEventListener('click', function() {
+                    mobileNav.classList.remove('active');
+                });
+            }
+        }
+
+        // Initialize weather functionality
+        function initWeather() {
+            // Check if geolocation is supported
+            if (!navigator.geolocation) {
+                showLocationPermission(false);
+                showWeatherError("Geolocation is not supported by your browser");
+                return;
+            }
+            
+            // Request location permission
+            showLocationPermission(true);
+            
+            // Set up allow location button
+            document.getElementById('btn-allow-location').addEventListener('click', function() {
+                requestLocation();
+            });
+            
+            // Auto-request location if previously allowed
+            if (localStorage.getItem('weatherLocationAllowed') === 'true') {
+                requestLocation();
+            }
+        }
+
+        // Request user's location
+        function requestLocation() {
+            document.getElementById('location-permission').classList.add('hidden');
+            document.getElementById('weather-loading').classList.remove('hidden');
+            
+            navigator.geolocation.getCurrentPosition(
+                // Success callback
+                function(position) {
+                    localStorage.setItem('weatherLocationAllowed', 'true');
+                    fetchWeatherData(position.coords.latitude, position.coords.longitude);
+                },
+                // Error callback
+                function(error) {
+                    console.error("Error getting location", error);
+                    showWeatherError("Could not get your location. " + error.message);
+                },
+                // Options
+                {
+                    enableHighAccuracy: true,
+                    timeout: 10000,
+                    maximumAge: 0
+                }
+            );
+        }
+
+        // Fetch weather data from WeatherAPI
+        function fetchWeatherData(lat, lon) {
+            // If API key is not set, show error
+            if (WEATHERAPI_KEY === "YOUR_API_KEY") {
+                showWeatherError("WeatherAPI key is not configured");
+                return;
+            }
+            
+            // WeatherAPI provides both current conditions and forecast in one call
+            const url = `https://api.weatherapi.com/v1/forecast.json?key=${WEATHERAPI_KEY}&q=${lat},${lon}&days=2&aqi=no&alerts=yes`;
+            
+            fetch(url)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    // Split data into current and forecast
+                    currentWeather = data.current;
+                    weatherForecast = data.forecast;
+                    
+                    // Update UI with data
+                    updateWeatherUI(data);
+                    
+                    // Check for weather alerts
+                    if (data.alerts && data.alerts.alert.length > 0) {
+                        checkForAlerts(data.alerts);
+                    }
+                })
+                .catch(error => {
+                    console.error("Error fetching weather:", error);
+                    showWeatherError(error.message);
+                });
+        }
+
+        // Update weather UI with data from WeatherAPI
+        function updateWeatherUI(data) {
+            // Hide loading, show content
+            document.getElementById('weather-loading').classList.add('hidden');
+            document.getElementById('weather-content').classList.remove('hidden');
+            
+            // Update location in header
+            document.getElementById('current-weather').textContent = 
+                `${translations[currentLanguage].currentWeather}: ${data.location.name}`;
+            
+            // Update temperature and condition
+            document.getElementById('temperature').textContent = `${Math.round(data.current.temp_c)}°C`;
+            document.getElementById('condition').textContent = data.current.condition.text;
+            
+            // Update weather icon
+            document.getElementById('weather-icon').src = `https:${data.current.condition.icon}`;
+            document.getElementById('weather-icon').alt = data.current.condition.text;
+            
+            // Update details
+            document.getElementById('humidity').textContent = `${data.current.humidity}%`;
+            document.getElementById('wind-speed').textContent = `${Math.round(data.current.wind_kph)} km/h`;
+            
+            // Precipitation chance - get it from the first forecast period
+            const precipChance = data.forecast.forecastday[0].hour[0].chance_of_rain;
+            document.getElementById('precipitation').textContent = `${precipChance}%`;
+            
+            // Last updated - format time from the API
+            const lastUpdated = new Date(data.current.last_updated);
+            document.getElementById('last-updated').textContent = lastUpdated.toLocaleTimeString();
+            
+            // Update forecast
+            updateForecast(data.forecast);
+            
+            // Check for heavy rain
+            checkForHeavyRain(data.forecast);
+        }
+
+        // Update forecast in UI
+        function updateForecast(forecast) {
+            const forecastContainer = document.getElementById('forecast-items');
+            forecastContainer.innerHTML = '';
+            
+            // Get next 8 hours (or from first day if less than 8 hours left)
+            let hourlyForecasts = [];
+            const currentHour = new Date().getHours();
+            const hoursLeft = 24 - currentHour;
+            
+            // Get hours from first day
+            const firstDayHours = forecast.forecastday[0].hour.slice(currentHour);
+            hourlyForecasts = hourlyForecasts.concat(firstDayHours);
+            
+            // If less than 8 hours left in the day, get some from next day
+            if (hoursLeft < 8 && forecast.forecastday.length > 1) {
+                const nextDayHours = forecast.forecastday[1].hour.slice(0, 8 - hoursLeft);
+                hourlyForecasts = hourlyForecasts.concat(nextDayHours);
+            }
+            
+            // Limit to 8 hours for display
+            hourlyForecasts = hourlyForecasts.slice(0, 8);
+            
+            hourlyForecasts.forEach(hour => {
+                const date = new Date(hour.time);
+                const hourNum = date.getHours();
+                const temp = Math.round(hour.temp_c);
+                const icon = hour.condition.icon;
+                const precipitation = hour.chance_of_rain;
+                
+                const forecastItem = document.createElement('div');
+                forecastItem.className = 'forecast-item';
+                
+                forecastItem.innerHTML = `
+                    <span class="forecast-time">${hourNum === 0 ? '00' : hourNum}:00</span>
+                    <img class="forecast-icon" src="https:${icon}" alt="${hour.condition.text}">
+                    <span class="forecast-temp">${temp}°C</span>
+                    <span class="forecast-precip">${precipitation}% ${translations[currentLanguage].rain}</span>
+                `;
+                
+                forecastContainer.appendChild(forecastItem);
+            });
+        }
+
+        // Check for heavy rain in forecast
+        function checkForHeavyRain(forecast) {
+            // Get forecasts for next 12 hours
+            const currentHour = new Date().getHours();
+            const hoursToCheck = Math.min(12, 24 - currentHour);
+            
+            // Get hours from first day's forecast
+            const hourlyForecasts = forecast.forecastday[0].hour.slice(currentHour, currentHour + hoursToCheck);
+            
+            // Check if any have high probability of precipitation and significant rain amount
+            const heavyRainForecast = hourlyForecasts.find(hour => {
+                // Check probability of precipitation (> 70%) and predicted precipitation amount (> 5mm)
+                return hour.chance_of_rain > 70 && hour.precip_mm > 5;
+            });
+            
+            if (heavyRainForecast) {
+                showHeavyRainAlert(heavyRainForecast);
+            }
+            
+            // Also check if there are any weather alerts from the API
+            if (forecast.alerts && forecast.alerts.alert && forecast.alerts.alert.length > 0) {
+                const rainAlerts = forecast.alerts.alert.filter(alert => 
+                    alert.category === 'rain' || 
+                    alert.event.toLowerCase().includes('rain') || 
+                    alert.event.toLowerCase().includes('flood')
+                );
+                
+                if (rainAlerts.length > 0) {
+                    showHeavyRainAlert(rainAlerts[0]);
+                }
+            }
+        }
+
+        // Check for weather alerts
+        function checkForAlerts(alerts) {
+            if (!alerts || !alerts.alert || alerts.alert.length === 0) return;
+            
+            // Look for severe weather alerts
+            const severeAlerts = alerts.alert.filter(alert => 
+                alert.severity === 'severe' || 
+                alert.severity === 'extreme' ||
+                alert.category === 'rain' || 
+                alert.category === 'flood'
+            );
+            
+            if (severeAlerts.length > 0) {
+                showWeatherAlert(severeAlerts[0]);
+            }
+        }
+
+        // Show heavy rain alert
+        function showHeavyRainAlert(forecast) {
+            const alertEl = document.getElementById('rain-alert');
+            alertEl.classList.remove('hidden');
+            
+            // Format alert text
+            const date = new Date(forecast.time);
+            const timeString = date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+            
+            document.getElementById('rain-alert-text').textContent = 
+                `${translations[currentLanguage].heavyRainExpected} Expected around ${timeString}.`;
+        }
+
+        // Show weather alert from API
+        function showWeatherAlert(alert) {
+            const alertEl = document.getElementById('rain-alert');
+            alertEl.classList.remove('hidden');
+            
+            // Use the alert headline or event as text
+            const alertText = alert.headline || alert.event || translations[currentLanguage].heavyRainExpected;
+            document.getElementById('rain-alert-text').textContent = alertText;
+        }
+
+        // Show location permission request
+        function showLocationPermission(show) {
+            const permissionEl = document.getElementById('location-permission');
+            if (show) {
+                permissionEl.classList.remove('hidden');
+            } else {
+                permissionEl.classList.add('hidden');
+            }
+        }
+
+        // Show weather error
+        function showWeatherError(message) {
+            document.getElementById('weather-loading').classList.add('hidden');
+            
+            const weatherContent = document.getElementById('weather-content');
+            weatherContent.classList.remove('hidden');
+            weatherContent.innerHTML = `
+                <div class="weather-error">
+                    <p>${translations[currentLanguage].weatherError}</p>
+                    <p class="error-details">${message}</p>
+                </div>
+            `;
+        }
+
+        // Change language
+        function changeLanguage(lang) {
+            currentLanguage = lang;
+            document.getElementById('current-lang').textContent = {
+                'en': 'English',
+                'hi': 'हिंदी',
+                'kn': 'ಕನ್ನಡ'
+            }[lang];
+            
+            updateTranslations();
+        }
+
+        // Update translations
+        function updateTranslations() {
+            document.querySelectorAll('.translatable').forEach(element => {
+                const key = element.getAttribute('data-key');
+                if (key && translations[currentLanguage][key]) {
+                    element.textContent = translations[currentLanguage][key];
+                }
+            });
+            
+            // Update UI with current data if available
+            if (currentWeather && weatherForecast) {
+                // Re-render forecast with translated labels
+                updateForecast(weatherForecast);
+            }
+        }
+
+        // Show crop details in modal
+        function showCropDetails(cropId) {
+            const crop = crops.find(c => c.id === cropId);
+            if (!crop) return;
+            
+            // Set modal title
+            document.getElementById('modal-crop-title').textContent = crop.name;
+            
+            // Set crop image
+            document.getElementById('crop-image').src = crop.imagePath;
+            document.getElementById('crop-image').alt = crop.name;
+            
+            // Set crop details
+            document.getElementById('crop-season').textContent = crop.season;
+            document.getElementById('crop-growth-period').textContent = crop.growthPeriod;
+            document.getElementById('crop-water-requirement').textContent = crop.waterRequirement;
+            document.getElementById('crop-soil-type').textContent = crop.soilType;
+            document.getElementById('crop-planting-info').textContent = crop.plantingInfo;
+            
+            // Set diseases
+            const diseasesEl = document.getElementById('crop-diseases');
+            diseasesEl.innerHTML = '';
+            crop.diseases.forEach(disease => {
+                const li = document.createElement('li');
+                li.textContent = disease;
+                diseasesEl.appendChild(li);
+            });
+            
+            // Set pesticides
+            const pesticidesEl = document.getElementById('crop-pesticides');
+            pesticidesEl.innerHTML = '';
+            crop.pesticides.forEach(pesticide => {
+                const li = document.createElement('li');
+                li.textContent = pesticide;
+                pesticidesEl.appendChild(li);
+            });
+            
+            // Apply translations to modal content
+            updateTranslations();
+            
+            // Show modal
+            document.getElementById('crop-modal').classList.add('active');
+        }
+    </script>
+</body>
+<body>
+    <div class="chatbot-widget">
+        <button class="chatbot-trigger" id="chatbot-trigger" aria-label="Open chatbot">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+            </svg>
+        </button>
+
+        <div class="chatbot-popup" id="chatbot-popup">
+            <div class="chatbot-header">
+                <div class="chatbot-title">
+                    <div class="chatbot-avatar">KM</div>
+                    <h3 id="chatbot-title">KrishEMitra Assistant</h3>
+                </div>
+                <div class="chatbot-controls">
+                    <div class="language-dropdown" id="language-dropdown">
+                        <button class="language-current" id="current-language">
+                            <span class="language-icon">🌐</span>
+                            <span id="language-label">English</span>
+                        </button>
+                        <div class="language-menu" id="language-menu">
+                            <div class="language-option active" data-lang="en">English</div>
+                            <div class="language-option" data-lang="hi">हिंदी</div>
+                            <div class="language-option" data-lang="kn">ಕನ್ನಡ</div>
+                        </div>
+                    </div>
+                    <button class="chatbot-close" id="chatbot-close" aria-label="Close chatbot">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="18" y1="6" x2="6" y2="18"></line>
+                            <line x1="6" y1="6" x2="18" y2="18"></line>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+
+            <div class="messages-container" id="messages-container"></div>
+
+            <div class="input-area">
+                <div class="input-container">
+                    <button class="voice-button" id="voice-button" title="Start voice input">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path>
+                            <path d="M19 10v2a7 7 0 0 1-14 0v-2"></path>
+                            <line x1="12" y1="19" x2="12" y2="23"></line>
+                            <line x1="8" y1="23" x2="16" y2="23"></line>
+                        </svg>
+                    </button>
+
+                    <input 
+                        type="text" 
+                        class="input-field" 
+                        id="message-input" 
+                        placeholder="Type your farming question here..."
+                        aria-label="Type your message">
+                    
+                    <div id="recording-timer" class="recording-timer" style="display: none;">
+                        Recording: 00:00
+                    </div>
+
+                    <button class="send-button" id="send-button" disabled>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="22" y1="2" x2="11" y2="13"></line>
+                            <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // DOM Elements
+            const chatbotTrigger = document.getElementById('chatbot-trigger');
+            const chatbotPopup = document.getElementById('chatbot-popup');
+            const chatbotClose = document.getElementById('chatbot-close');
+            const messagesContainer = document.getElementById('messages-container');
+            const messageInput = document.getElementById('message-input');
+            const sendButton = document.getElementById('send-button');
+            const voiceButton = document.getElementById('voice-button');
+            const recordingTimer = document.getElementById('recording-timer');
+            const chatbotTitle = document.getElementById('chatbot-title');
+            const languageDropdown = document.getElementById('language-dropdown');
+            const currentLanguageBtn = document.getElementById('current-language');
+            const languageMenu = document.getElementById('language-menu');
+            const languageLabel = document.getElementById('language-label');
+            const languageOptions = document.querySelectorAll('.language-option');
+
+            // State
+            let currentLanguage = 'en';
+            let messages = [];
+            let isRecording = false;
+            let recordingInterval = null;
+            let recordingSeconds = 0;
+            let recognition = null;
+            let languageSelected = false;
+
+            // Translations
+            const translations = {
+                en: {
+                    chatbotTitle: 'KrishEMitra Assistant',
+                    chatbotWelcome: 'Hello! I\'m your KrishEMitra farming assistant. Please select your preferred language to continue.',
+                    chooseLanguage: 'Choose your language:',
+                    english: 'English',
+                    hindi: 'Hindi',
+                    kannada: 'Kannada',
+                    languageConfirmation: 'You selected English. How can I help with your farming needs today?',
+                    chatbotPlaceholder: 'Type your farming question here...',
+                    sendMessage: 'Send',
+                    listening: 'Listening...',
+                    startListening: 'Start voice input',
+                    stopListening: 'Stop voice input',
+                    recordingTime: 'Recording',
+                    errorMessage: 'Sorry, I encountered an error processing your request. Please try again later.'
+                },
+                hi: {
+                    chatbotTitle: 'कृषिमित्र सहायक',
+                    chatbotWelcome: 'नमस्ते! मैं आपका कृषिमित्र कृषि सहायक हूँ। जारी रखने के लिए कृपया अपनी पसंदीदा भाषा चुनें।',
+                    chooseLanguage: 'अपनी भाषा चुनें:',
+                    english: 'अंग्रेज़ी',
+                    hindi: 'हिंदी',
+                    kannada: 'कन्नड़',
+                    languageConfirmation: 'आपने हिंदी को चुना है। आज मैं आपकी कृषि आवश्यकताओं में कैसे मदद कर सकता हूँ?',
+                    chatbotPlaceholder: 'अपना कृषि प्रश्न यहां लिखें...',
+                    sendMessage: 'भेजें',
+                    listening: 'सुन रहा है...',
+                    startListening: 'वॉइस इनपुट शुरू करें',
+                    stopListening: 'वॉइस इनपुट रोकें',
+                    recordingTime: 'रिकॉर्डिंग',
+                    errorMessage: 'क्षमा करें, मुझे आपके अनुरोध को संसाधित करने में एक त्रुटि का सामना करना पड़ा। कृपया बाद में पुनः प्रयास करें।'
+                },
+                kn: {
+                    chatbotTitle: 'ಕೃಷಿಮಿತ್ರ ಸಹಾಯಕ',
+                    chatbotWelcome: 'ನಮಸ್ಕಾರ! ನಾನು ನಿಮ್ಮ ಕೃಷಿಮಿತ್ರ ಕೃಷಿ ಸಹಾಯಕ. ಮುಂದುವರೆಯಲು ದಯವಿಟ್ಟು ನಿಮ್ಮ ಆದ್ಯತೆಯ ಭಾಷೆಯನ್ನು ಆಯ್ಕೆಮಾಡಿ.',
+                    chooseLanguage: 'ನಿಮ್ಮ ಭಾಷೆಯನ್ನು ಆಯ್ಕೆಮಾಡಿ:',
+                    english: 'ಇಂಗ್ಲಿಷ್',
+                    hindi: 'ಹಿಂದಿ',
+                    kannada: 'ಕನ್ನಡ',
+                    languageConfirmation: 'ನೀವು ಕನ್ನಡವನ್ನು ಆಯ್ಕೆ ಮಾಡಿದ್ದೀರಿ. ಇಂದು ನಿಮ್ಮ ಕೃಷಿ ಅವಶ್ಯಕತೆಗಳಿಗೆ ನಾನು ಹೇಗೆ ಸಹಾಯ ಮಾಡಬಹುದು?',
+                    chatbotPlaceholder: 'ನಿಮ್ಮ ಕೃಷಿ ಪ್ರಶ್ನೆಯನ್ನು ಇಲ್ಲಿ ಬರೆಯಿರಿ...',
+                    sendMessage: 'ಕಳುಹಿಸಿ',
+                    listening: 'ಆಲಿಸುತ್ತಿದ್ದೇನೆ...',
+                    startListening: 'ಧ್ವನಿ ಇನ್‌ಪುಟ್ ಪ್ರಾರಂಭಿಸಿ',
+                    stopListening: 'ಧ್ವನಿ ಇನ್‌ಪುಟ್ ನಿಲ್ಲಿಸಿ',
+                    recordingTime: 'ರೆಕಾರ್ಡಿಂಗ್',
+                    errorMessage: 'ಕ್ಷಮಿಸಿ, ನಿಮ್ಮ ವಿನಂತಿಯನ್ನು ಪ್ರಕ್ರಿಯೆಗೊಳಿಸುವಲ್ಲಿ ನನಗೆ ದೋಷ ಎದುರಾಗಿದೆ. ದಯವಿಟ್ಟು ನಂತರ ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ.'
+                }
+            };
+
+            // Helper functions
+            const translate = (key) => {
+                return translations[currentLanguage][key] || key;
+            };
+
+            const formatTime = (seconds) => {
+                const mins = Math.floor(seconds / 60);
+                const secs = seconds % 60;
+                return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+            };
+
+            const scrollToBottom = () => {
+                messagesContainer.scrollTop = messagesContainer.scrollHeight;
+            };
+
+            // Initialize speech recognition
+            const initSpeechRecognition = () => {
+                if ('SpeechRecognition' in window || 'webkitSpeechRecognition' in window) {
+                    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+                    recognition = new SpeechRecognition();
+                    recognition.continuous = true;
+                    recognition.interimResults = false;
+                    
+                    // Set language based on current selection
+                    updateRecognitionLanguage();
+                    
+                    recognition.onresult = (event) => {
+                        const result = event.results[event.results.length - 1];
+                        if (result.isFinal) {
+                            const transcript = result[0].transcript;
+                            messageInput.value += ' ' + transcript.trim();
+                            updateSendButton();
+                        }
+                    };
+                    
+                    recognition.onend = () => {
+                        if (isRecording) {
+                            recognition.start();
+                        }
+                    };
+                    
+                    recognition.onerror = (event) => {
+                        console.error('Speech recognition error', event);
+                        stopRecording();
+                    };
+                } else {
+                    voiceButton.style.display = 'none';
+                    console.error('Speech recognition not supported');
+                }
+            };
+
+            const updateRecognitionLanguage = () => {
+                if (recognition) {
+                    recognition.lang = currentLanguage === 'en' ? 'en-US' : 
+                                        currentLanguage === 'hi' ? 'hi-IN' : 'kn-IN';
+                }
+            };
+
+            // Start recording
+            const startRecording = () => {
+                if (!recognition) return;
+                
+                isRecording = true;
+                voiceButton.classList.add('recording');
+                messageInput.classList.add('recording');
+                messageInput.placeholder = translate('listening');
+                recordingTimer.style.display = 'block';
+                recordingTimer.textContent = `${translate('recordingTime')}: 00:00`;
+                
+                // Start timer
+                recordingSeconds = 0;
+                recordingInterval = setInterval(() => {
+                    recordingSeconds++;
+                    recordingTimer.textContent = `${translate('recordingTime')}: ${formatTime(recordingSeconds)}`;
+                }, 1000);
+                
+                // Start recognition
+                recognition.start();
+            };
+
+            // Stop recording
+            const stopRecording = () => {
+                if (!recognition) return;
+                
+                isRecording = false;
+                voiceButton.classList.remove('recording');
+                messageInput.classList.remove('recording');
+                messageInput.placeholder = translate('chatbotPlaceholder');
+                recordingTimer.style.display = 'none';
+                
+                // Stop timer
+                clearInterval(recordingInterval);
+                recordingSeconds = 0;
+                
+                // Stop recognition
+                recognition.stop();
+            };
+
+            // Toggle recording
+            const toggleRecording = () => {
+                if (isRecording) {
+                    stopRecording();
+                } else {
+                    startRecording();
+                }
+            };
+
+            // Add a message to the chat
+            const addMessage = (text, sender, isLoading = false) => {
+                const messageId = Date.now().toString();
+                const timestamp = new Date();
+                
+                if (!isLoading) {
+                    messages.push({
+                        id: messageId,
+                        text,
+                        sender,
+                        timestamp
+                    });
+                }
+
+                const messageElement = document.createElement('div');
+                messageElement.className = `message ${sender}`;
+                messageElement.id = isLoading ? 'loading-message' : `message-${messageId}`;
+
+                if (isLoading) {
+                    messageElement.innerHTML = `
+                        <div class="typing-indicator">
+                            <div class="typing-dot"></div>
+                            <div class="typing-dot"></div>
+                            <div class="typing-dot"></div>
+                        </div>
+                    `;
+                } else {
+                    const formattedTime = timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+                    messageElement.innerHTML = `
+                        <div class="message-content">
+                            <div class="message-text">${text}</div>
+                            <span class="message-time">${formattedTime}</span>
+                        </div>
+                    `;
+                }
+
+                messagesContainer.appendChild(messageElement);
+                scrollToBottom();
+            };
+
+            // Add language selection buttons to the chat
+            const addLanguageSelectionMessage = () => {
+                const messageId = Date.now().toString();
+                const timestamp = new Date();
+                
+                messages.push({
+                    id: messageId,
+                    text: translate('chooseLanguage'),
+                    sender: 'bot',
+                    timestamp
+                });
+
+                const messageElement = document.createElement('div');
+                messageElement.className = `message bot`;
+                messageElement.id = `message-${messageId}`;
+
+                const formattedTime = timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+                messageElement.innerHTML = `
+                    <div class="message-content">
+                        <div class="message-text">
+                            ${translate('chooseLanguage')}
+                            <div class="language-selection-options">
+                                <button class="language-button" data-lang="en">${translate('english')}</button>
+                                <button class="language-button" data-lang="hi">${translate('hindi')}</button>
+                                <button class="language-button" data-lang="kn">${translate('kannada')}</button>
+                            </div>
+                        </div>
+                        <span class="message-time">${formattedTime}</span>
+                    </div>
+                `;
+
+                messagesContainer.appendChild(messageElement);
+                
+                // Add event listeners to language buttons
+                const languageButtons = messageElement.querySelectorAll('.language-button');
+                languageButtons.forEach(button => {
+                    button.addEventListener('click', () => {
+                        const lang = button.getAttribute('data-lang');
+                        setLanguage(lang);
+                        
+                        // Add confirmation message
+                        const confirmationMessage = translations[lang].languageConfirmation;
+                        addMessage(confirmationMessage, 'bot');
+                        
+                        languageSelected = true;
+                    });
+                });
+                
+                scrollToBottom();
+            };
+
+            // Remove the loading indicator
+            const removeLoadingIndicator = () => {
+                const loadingMessage = document.getElementById('loading-message');
+                if (loadingMessage) {
+                    messagesContainer.removeChild(loadingMessage);
+                }
+            };
+
+            // Send a message
+            const sendMessage = async () => {
+                const messageText = messageInput.value.trim();
+                if (!messageText) return;
+
+                // Add user message
+                addMessage(messageText, 'user');
+                messageInput.value = '';
+                updateSendButton();
+
+                // Show loading indicator
+                addMessage('', 'bot', true);
+
+                try {
+                    // In a real implementation, this would call your API
+                    // This is a mock response for demonstration
+                    await new Promise(resolve => setTimeout(resolve, 1500));
+                    
+                    // Mock different responses based on queries
+                    let botResponse = "";
+                    const lowerText = messageText.toLowerCase();
+                    if (currentLanguage === "en"){
+                    if (lowerText.includes('weather') || lowerText.includes('rain') || lowerText.includes('forecast')) {
+                        botResponse = "The current weather in your area shows a temperature of 28°C with a 30% chance of precipitation. There is no heavy rainfall expected in the next 12 hours.";
+                    } else if (lowerText.includes('rice') || lowerText.includes('paddy')) {
+                        botResponse = "Rice cultivation requires well-drained soil and consistent water supply. The best planting season is during monsoon (June-July). Watch out for common diseases like Rice Blast and Brown Spot.";
+                    } else if (lowerText.includes('wheat')) {
+                        botResponse = "Wheat grows best in well-drained fertile soils. Plant during winter season (October-December). Maintain adequate irrigation especially during heading and grain filling stages.";
+                    } else if (lowerText.includes('pest') || lowerText.includes('insect')) {
+                        botResponse = "For sustainable pest management, consider integrated approaches combining natural predators, resistant varieties, and judicious use of pesticides. Neem oil is effective for many common garden pests.";
+                    } else if (lowerText.includes('maize') || lowerText.includes('corn')) {
+                            botResponse = "Maize requires well-drained loamy soil with good organic content. Planting is best during the spring season (February-April). Monitor for pests like stem borers and manage them using crop rotation or natural predators.";
+                    } else if (lowerText.includes('cotton')) {
+                            botResponse = "Cotton requires black soil with good moisture retention. Sow during the Kharif season (June-July). Bollworm is a common pest; use pest-resistant varieties and monitor fields regularly.";  
+                    } else {
+                        botResponse = "Thank you for your question about farming. I'd be happy to help with information about crop cultivation, disease management, or seasonal planting advice. Could you provide more specific details about what you're growing or what challenge you're facing?";
+                    }
+                } 
+                    // For demo, translate based on current language
+                    else if (currentLanguage === 'hi') {
+                        if (lowerText.includes('weather') || lowerText.includes('rain') || lowerText.includes('forecast')) {
+                          botResponse = "आपके क्षेत्र का वर्तमान मौसम 28°C तापमान और 30% वर्षा की संभावना दिखा रहा है। अगले 12 घंटों में भारी बारिश की संभावना नहीं है।";
+                        } else if (lowerText.includes('चावल') || lowerText.includes('paddy')) {
+                           botResponse = "चावल की खेती के लिए अच्छी जल निकासी वाली मिट्टी और नियमित पानी की आपूर्ति की आवश्यकता होती है। सर्वश्रेष्ठ बुवाई का मौसम मानसून (जून-जुलाई) के दौरान है। आम बीमारियों जैसे कि राइस ब्लास्ट और ब्राउन स्पॉट से सावधान रहें।";
+                        } else if (lowerText.includes('गेहूं')) {
+                           botResponse = "गेहूं उपजाऊ मिट्टी में सबसे अच्छा बढ़ता है। बुवाई का समय सर्दियों के मौसम (अक्टूबर-दिसंबर) के दौरान होता है। विशेष रूप से सिर और अनाज भरने के चरणों के दौरान सिंचाई बनाए रखें।";
+                        } else if (lowerText.includes('मक्का') || lowerText.includes('corn')) {
+                           botResponse = "मक्का की खेती के लिए उपजाऊ दोमट मिट्टी चाहिए। वसंत ऋतु (फरवरी-अप्रैल) में बुवाई करें। तनों के कीड़ों जैसे कीटों के लिए फसल चक्रीकरण या प्राकृतिक शिकारी का उपयोग करें।";
+                        } else if (lowerText.includes('गन्ना')) {
+                           botResponse = "गन्ना उष्णकटिबंधीय जलवायु में उपजाऊ जलोढ़ मिट्टी में उगता है। बेहतर उपज के लिए फरवरी-अप्रैल में बुवाई करें। नियमित सिंचाई और खरपतवार प्रबंधन महत्वपूर्ण हैं।";
+                        } else if (lowerText.includes('कपास')) {
+                           botResponse = "कपास को जल धारण क्षमता वाली काली मिट्टी चाहिए। बुवाई का समय खरीफ मौसम (जून-जुलाई) है। सामान्य कीटों जैसे बॉलवर्म के लिए कीट प्रतिरोधी किस्मों का उपयोग करें और नियमित रूप से खेत की निगरानी करें।";
+                        } else if (lowerText.includes('pest') || lowerText.includes('कीट')) {
+                        botResponse = "कीट प्रबंधन के लिए, प्राकृतिक शिकारी, प्रतिरोधी किस्मों और कीटनाशकों के संयोजन का उपयोग करें। नीम का तेल कई सामान्य कीटों के लिए प्रभावी है।";
+                        } else {
+                        botResponse = "कृषि के बारे में आपके प्रश्न के लिए धन्यवाद। फसल की खेती, रोग प्रबंधन, या मौसमी बुवाई के बारे में जानकारी के लिए कृपया अधिक विवरण प्रदान करें।";
+                       }
+                    } else if (currentLanguage === 'kn') {
+                        if (lowerText.includes('weather') || lowerText.includes('rain') || lowerText.includes('forecast')) {
+                         botResponse = "ನಿಮ್ಮ ಪ್ರದೇಶದ ಪ್ರಸ್ತುತ ಹವಾಮಾನ 28°C ತಾಪಮಾನವನ್ನು ಮತ್ತು 30% ಮಳೆಯ ಸಾಧ್ಯತೆಯನ್ನು ತೋರಿಸುತ್ತದೆ. ಮುಂದಿನ 12 ಗಂಟೆಗಳಲ್ಲಿ ಭಾರೀ ಮಳೆಯ ನಿರೀಕ್ಷೆ ಇಲ್ಲ.";
+                        } else if (lowerText.includes('ಅಕ್ಕಿ') || lowerText.includes('paddy')) {
+                          botResponse = "ಅಕ್ಕಿಯ ಬೆಳೆ ಬೆಳೆಯಲು ಚೆನ್ನಾಗಿ ಒಳಹರಿವು ಇರುವ ಮಣ್ಣು ಮತ್ತು ಸತತ ನೀರಿನ ಪೂರೈಕೆ ಅಗತ್ಯವಿದೆ. ಉತ್ತಮ ಹೂವಿನ ಸಮಯ ಮಳೆಗಾಲ (ಜೂನ್-ಜುಲೈ) ಸಮಯವಾಗಿದೆ. ಸಾಮಾನ್ಯ ರೋಗಗಳು ರೈಸ್ಬ್ಲಾಸ್ಟ್ ಮತ್ತು ಬ್ರೌನ್ ಸ್ಪಾಟ್ ಅನ್ನು ಗಮನಿಸಿ.";
+                    } else if (lowerText.includes('ಗೋದಿ')) {
+                        botResponse = "ಗೋದಿ ಚೆನ್ನಾಗಿ ಒಳಹರಿವು ಇರುವ ಫಲವತ್ತಾದ ಮಣ್ಣಿನಲ್ಲಿ ಉತ್ತಮವಾಗಿ ಬೆಳೆಯುತ್ತದೆ. ಚಳಿ ಕಾಲದಲ್ಲಿ (ಅಕ್ಟೋಬರ್-ಡಿಸೆಂಬರ್) ಹೂವು ಮಾಡಿರಿ. ತಲೆ ಮತ್ತು ಧಾನ್ಯ ತುಂಬುವ ಹಂತಗಳಲ್ಲಿ ಸಮರ್ಪಕವಾದ ನೀರಾವರಿ ಮಾಡುವುದು ಮುಖ್ಯ.";
+                    } else if (lowerText.includes('ಜೋಳ') || lowerText.includes('corn')) {
+                        botResponse = "ಜೋಳ ಬೆಳೆಯಲು ಸಮೃದ್ಧ ದೋಮಟ ಮಣ್ಣು ಬೇಕು. ವಸಂತ ಋತು (ಫೆಬ್ರವರಿ-ಏಪ್ರಿಲ್) ಸಮಯದಲ್ಲಿ ಬಿತ್ತನೆ ಮಾಡಿ. ಹೊಡೆತ ಬೋರರ್ ಕೀಟಗಳಂತಹ ಕೀಟಗಳನ್ನು ನಿರ್ವಹಿಸಲು ಫಸಲು ಆವರ್ತನ ಅಥವಾ ಪ್ರಕೃತಿಯ ವೈರಿ ಪ್ರಾಣಿಗಳನ್ನು ಬಳಸಿ.";
+                    } else if (lowerText.includes('ಸಕ್ಕರೆ ಕಬ್ಬು')) {
+                        botResponse = "ಸಕ್ಕರೆ ಕಬ್ಬು ಉಷ್ಣವಲಯ ಹವಾಮಾನದಲ್ಲಿ ಸಮೃದ್ಧ ಆಲುವಿಯಲ್ ಮಣ್ಣುಗಳಲ್ಲಿ ಬೆಳೆಯುತ್ತದೆ. ಉತ್ತಮ ಫಸಲಿಗಾಗಿ ಫೆಬ್ರವರಿ-ಏಪ್ರಿಲ್ ವೇಳೆಯಲ್ಲಿ ಬಿತ್ತನೆ ಮಾಡಿರಿ. ನಿಯಮಿತ ನೀರಾವರಿ ಮತ್ತು ಗಿಡಗಳಲ್ಲಿ ಕಳೆಗಳ ನಿರ್ವಹಣೆ ಅತ್ಯಗತ್ಯ.";
+                    } else if (lowerText.includes('ಹತ್ತಿಗೆ')) {
+                        botResponse = "ಹತ್ತಿಗೆ ನೀರನ್ನು ಹಿಡಿದಿಡುವ ಶಕ್ತಿ ಹೊಂದಿರುವ ಕಪ್ಪು ಮಣ್ಣು ಬೇಕು. ಬಿತ್ತನೆ ಸಮಯ ಖರಿಫ್ (ಜೂನ್-ಜುಲೈ) ಹಂಗಾಮು. ಸಾಮಾನ್ಯ ಕೀಟಗಳಾದ ಬೋರ್ವಾರ್ಮ್‌ಗಾಗಿ ಕೀಟನಿರೋಧಕ ತಳಿ ಬಳಸಿ ಮತ್ತು ಶೇಖ್ರಿತ ಕಣಜವನ್ನು ಮಾನಿಟರ್ ಮಾಡಿ.";
+                    } else if (lowerText.includes('pest') || lowerText.includes('ವೈರಿ ಪ್ರಾಣಿಗಳು')) {
+                        botResponse = "ಸಾಸಿವೆ ನಿರ್ವಹಣೆಗೆ, ನೈಸರ್ಗಿಕ ವೈರಿ ಪ್ರಾಣಿಗಳು, ನಿರೋಧಕ ತಳಿ, ಮತ್ತು ಕೀಟನಾಶಕಗಳ ಸುಜ್ಞ ಬಳಕೆ ಇತ್ಯಾದಿಗಳನ್ನು ಒಳಗೊಂಡ ಸಮಗ್ರ ವಿಧಾನಗಳನ್ನು ಪರಿಗಣಿಸಿ. ನೀಮ್ ಎಣ್ಣೆ ಸಾಮಾನ್ಯ ಕೀಟಗಳಿಗೆ ಪರಿಣಾಮಕಾರಿ.";
+                    } else  {
+                        botResponse = "ಕೃಷಿಯ ಬಗ್ಗೆ ನಿಮ್ಮ ಪ್ರಶ್ನೆಗೆ ಧನ್ಯವಾದಗಳು. ಬೆಳೆ ಬೆಳೆಸುವ, ರೋಗ ನಿರ್ವಹಣೆ ಅಥವಾ ಹಂಗಾಮು ಬಿತ್ತನೆ ಸಲಹೆಗಳಿಗೆ ನೀವು ಇನ್ನಷ್ಟು ವಿವರಗಳನ್ನು ನೀಡಬಹುದು.";
+                    }}
+                else {
+                       botResponse = "Sorry, I can respond in English, Hindi, and Kannada. Please specify your language preference.";
+                    }
+                    // Remove loading and add bot response
+                    
+                    removeLoadingIndicator();
+                    addMessage(botResponse, 'bot');
+                } catch (error) {
+                    console.error('Error sending message:', error);
+                    removeLoadingIndicator();
+                    addMessage(translate('errorMessage'), 'bot');
+                }
+            };
+
+            // Update header and interface for language
+            const updateInterface = () => {
+                // Update UI with translations
+                chatbotTitle.textContent = translate('chatbotTitle');
+                messageInput.placeholder = isRecording ? 
+                    translate('listening') : translate('chatbotPlaceholder');
+                
+                if (isRecording) {
+                    recordingTimer.textContent = `${translate('recordingTime')}: ${formatTime(recordingSeconds)}`;
+                }
+                
+                voiceButton.title = isRecording ? 
+                    translate('stopListening') : translate('startListening');
+
+                // Update language dropdown label
+                const languageNames = {
+                    'en': 'English',
+                    'hi': 'हिंदी',
+                    'kn': 'ಕನ್ನಡ'
+                };
+                languageLabel.textContent = languageNames[currentLanguage];
+
+                // Update language options active state
+                languageOptions.forEach(option => {
+                    if (option.getAttribute('data-lang') === currentLanguage) {
+                        option.classList.add('active');
+                    } else {
+                        option.classList.remove('active');
+                    }
+                });
+            };
+
+            // Enable/disable send button based on input
+            const updateSendButton = () => {
+                sendButton.disabled = messageInput.value.trim() === '';
+            };
+
+            // Set language
+            const setLanguage = (lang) => {
+                currentLanguage = lang;
+                updateRecognitionLanguage();
+                updateInterface();
+            };
+
+            // Initialize chat
+            const initChat = () => {
+                // Welcome message
+                addMessage(translate('chatbotWelcome'), 'bot');
+                
+                // Add language selection
+                addLanguageSelectionMessage();
+                
+                // Update UI with translations
+                updateInterface();
+            };
+
+            // Toggle language dropdown
+            const toggleLanguageMenu = () => {
+                languageMenu.classList.toggle('active');
+            };
+
+            // Setup event listeners
+            const setupEventListeners = () => {
+                // Toggle chatbot popup
+                chatbotTrigger.addEventListener('click', () => {
+                    chatbotPopup.classList.toggle('active');
+                    
+                    // If opening, focus input
+                    if (chatbotPopup.classList.contains('active')) {
+                        messageInput.focus();
+                    }
+                });
+                
+                // Close chatbot
+                chatbotClose.addEventListener('click', () => {
+                    chatbotPopup.classList.remove('active');
+                });
+                
+                // Send message on button click
+                sendButton.addEventListener('click', sendMessage);
+                
+                // Send message on enter key
+                messageInput.addEventListener('keypress', (e) => {
+                    if (e.key === 'Enter') {
+                        e.preventDefault();
+                        if (!sendButton.disabled) {
+                            sendMessage();
+                        }
+                    }
+                });
+                
+                // Update send button state on input
+                messageInput.addEventListener('input', updateSendButton);
+                
+                // Toggle voice recording
+                voiceButton.addEventListener('click', toggleRecording);
+
+                // Language dropdown toggle
+                currentLanguageBtn.addEventListener('click', toggleLanguageMenu);
+
+                // Close language dropdown when clicking outside
+                document.addEventListener('click', (event) => {
+                    if (!languageDropdown.contains(event.target)) {
+                        languageMenu.classList.remove('active');
+                    }
+                });
+
+                // Language options selection
+                languageOptions.forEach(option => {
+                    option.addEventListener('click', () => {
+                        const lang = option.getAttribute('data-lang');
+                        setLanguage(lang);
+                        languageMenu.classList.remove('active');
+
+                        // Add confirmation message if user already started conversation
+                        if (languageSelected) {
+                            const confirmationMessage = translations[lang].languageConfirmation;
+                            addMessage(confirmationMessage, 'bot');
+                        }
+                    });
+                });
+            };
+
+            // Initialize the application
+            const init = () => {
+                initSpeechRecognition();
+                setupEventListeners();
+                initChat();
+            };
+
+            // Start the application
+            init();
+        });
+    </script>
+</body>
+</html>
